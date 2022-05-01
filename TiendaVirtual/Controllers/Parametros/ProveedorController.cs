@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AccesoDeDatos.Implementacion.Parametros;
+using AccesoDeDatos.modelos;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -6,18 +8,18 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using TiendaVirtual.Models;
+using AccesoDeDatos.modelos;
 
 namespace TiendaVirtual.Controllers.Parametros
 {
     public class ProveedorController : Controller
     {
-        private EllaYelDBEntities db = new EllaYelDBEntities();
+        private ImplProveedorDatos acceso = new ImplProveedorDatos();
 
         // GET: Proveedor
-        public ActionResult Index()
+        public ActionResult Index(string filtro = "")
         {
-            return View(db.tb_Proveedor.ToList());
+                return View(acceso.ListarRegistros(filtro));
         }
 
         // GET: Proveedor/Details/5
@@ -27,7 +29,7 @@ namespace TiendaVirtual.Controllers.Parametros
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_Proveedor tb_Proveedor = db.tb_Proveedor.Find(id);
+            tb_Proveedor tb_Proveedor = acceso.BuscarRegistro(id.Value);
             if (tb_Proveedor == null)
             {
                 return HttpNotFound();
@@ -50,8 +52,7 @@ namespace TiendaVirtual.Controllers.Parametros
         {
             if (ModelState.IsValid)
             {
-                db.tb_Proveedor.Add(tb_Proveedor);
-                db.SaveChanges();
+                acceso.GuardarRegistro(tb_Proveedor);
                 return RedirectToAction("Index");
             }
 
@@ -65,7 +66,7 @@ namespace TiendaVirtual.Controllers.Parametros
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_Proveedor tb_Proveedor = db.tb_Proveedor.Find(id);
+            tb_Proveedor tb_Proveedor = acceso.BuscarRegistro(id.Value);
             if (tb_Proveedor == null)
             {
                 return HttpNotFound();
@@ -82,8 +83,7 @@ namespace TiendaVirtual.Controllers.Parametros
         {
             if (ModelState.IsValid)
             {
-                db.Entry(tb_Proveedor).State = EntityState.Modified;
-                db.SaveChanges();
+                acceso.EditarRegistro(tb_Proveedor);
                 return RedirectToAction("Index");
             }
             return View(tb_Proveedor);
@@ -96,7 +96,7 @@ namespace TiendaVirtual.Controllers.Parametros
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_Proveedor tb_Proveedor = db.tb_Proveedor.Find(id);
+            tb_Proveedor tb_Proveedor = acceso.BuscarRegistro(id.Value);
             if (tb_Proveedor == null)
             {
                 return HttpNotFound();
@@ -109,19 +109,8 @@ namespace TiendaVirtual.Controllers.Parametros
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            tb_Proveedor tb_Proveedor = db.tb_Proveedor.Find(id);
-            db.tb_Proveedor.Remove(tb_Proveedor);
-            db.SaveChanges();
+            acceso.BorrarRegistro(id);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

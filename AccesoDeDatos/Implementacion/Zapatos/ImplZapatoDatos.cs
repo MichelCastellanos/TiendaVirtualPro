@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AccesoDeDatos.Implementacion.Zapatos
 {
-    class ImplZapatoDatos
+    public class ImplZapatoDatos
     {
         /// <summary>
         /// metodo para listar registros

@@ -8,7 +8,6 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using TiendaVirtual.Models;
 
 namespace TiendaVirtual.Controllers.Parametros
 {
@@ -17,9 +16,9 @@ namespace TiendaVirtual.Controllers.Parametros
         private ImplMarcaDatos acceso = new ImplMarcaDatos();
 
         // GET: Marca
-        public ActionResult Index()
+        public ActionResult Index(String filtro= "")
         {
-            return View(acceso.tb_Marca.ToList());
+                return View(acceso.ListarRegistros(String.Empty));
         }
 
         // GET: Marca/Details/5
@@ -29,7 +28,7 @@ namespace TiendaVirtual.Controllers.Parametros
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_Marca tb_Marca = acceso.tb_Marca.Find(id);
+            tb_Marca tb_Marca = acceso.BuscarRegistro(id.Value);
             if (tb_Marca == null)
             {
                 return HttpNotFound();
@@ -52,8 +51,7 @@ namespace TiendaVirtual.Controllers.Parametros
         {
             if (ModelState.IsValid)
             {
-                acceso.tb_Marca.Add(tb_Marca);
-                acceso.SaveChanges();
+                acceso.GuardarRegistro(tb_Marca);
                 return RedirectToAction("Index");
             }
 
@@ -67,7 +65,7 @@ namespace TiendaVirtual.Controllers.Parametros
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_Marca tb_Marca = acceso.tb_Marca.Find(id);
+            tb_Marca tb_Marca = acceso.BuscarRegistro(id.Value);
             if (tb_Marca == null)
             {
                 return HttpNotFound();
@@ -84,8 +82,7 @@ namespace TiendaVirtual.Controllers.Parametros
         {
             if (ModelState.IsValid)
             {
-                acceso.Entry(tb_Marca).State = EntityState.Modified;
-                acceso.SaveChanges();
+                acceso.EditarRegistro(tb_Marca);
                 return RedirectToAction("Index");
             }
             return View(tb_Marca);
@@ -98,7 +95,7 @@ namespace TiendaVirtual.Controllers.Parametros
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_Marca tb_Marca = acceso.tb_Marca.Find(id);
+            tb_Marca tb_Marca = acceso.BuscarRegistro(id.Value);
             if (tb_Marca == null)
             {
                 return HttpNotFound();
@@ -111,19 +108,10 @@ namespace TiendaVirtual.Controllers.Parametros
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            tb_Marca tb_Marca = acceso.tb_Marca.Find(id);
-            acceso.tb_Marca.Remove(tb_Marca);
-            acceso.SaveChanges();
+            acceso.BorrarRegistro(id);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                acceso.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        
     }
 }

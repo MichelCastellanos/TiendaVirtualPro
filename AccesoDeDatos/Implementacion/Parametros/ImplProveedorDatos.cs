@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AccesoDeDatos.Implementacion.Parametros
 {
-    class ImplProveedorDatos
+    public class ImplProveedorDatos
     {
         /// <summary>
         /// metodo para listar registros
@@ -20,9 +20,15 @@ namespace AccesoDeDatos.Implementacion.Parametros
             var lista = new List<tb_Proveedor>();
             using (EllaYelDBEntities db = new EllaYelDBEntities())
             {
-                /// peticion tipo mapeo
-                lista = db.tb_Proveedor.Where(x => x.RazonSocial.ToUpper().Contains(filtro.ToUpper())).ToList();
-                /// 
+                if (String.IsNullOrWhiteSpace(filtro))
+                {
+                    lista = db.tb_Proveedor.ToList();
+                }
+                else
+                {
+                    /// peticion tipo mapeo
+                    lista = db.tb_Proveedor.Where(x => x.RazonSocial.ToUpper().Contains(filtro.ToUpper())).ToList();
+                }
             }
             return lista;
         }

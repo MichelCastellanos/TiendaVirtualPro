@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AccesoDeDatos.Implementacion.Parametros
 {
-    class ImplCategoriaDatos
+    public class ImplCategoriaDatos
     {
         /// <summary>
         /// metodo para listar registros
@@ -20,9 +20,15 @@ namespace AccesoDeDatos.Implementacion.Parametros
             var lista = new List<tb_Categoria>();
             using (EllaYelDBEntities db = new EllaYelDBEntities())
             {
-                /// peticion tipo mapeo
-                lista = db.tb_Categoria.Where(x => x.Nombre.ToUpper().Contains(filtro.ToUpper())).ToList();
-                /// 
+                if (String.IsNullOrWhiteSpace(filtro))
+                {
+                    lista = db.tb_Categoria.ToList();
+                }
+                else
+                {
+                    /// peticion tipo mapeo
+                    lista = db.tb_Categoria.Where(x => x.Nombre.ToUpper().Contains(filtro.ToUpper())).ToList();
+                }
             }
             return lista;
         }

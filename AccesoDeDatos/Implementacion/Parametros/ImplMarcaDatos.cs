@@ -15,14 +15,20 @@ namespace AccesoDeDatos.Implementacion.Parametros
         /// </summary>
         /// <param name="filtro">filtro a aplicar</param>
         /// <returns></returns>
-        public IEnumerable <tb_Marca> ListarRegistros(string filtro)
+        public IEnumerable <tb_Marca> ListarRegistros(String filtro)
         {
             var lista = new List<tb_Marca>();
             using (EllaYelDBEntities db = new EllaYelDBEntities())
             {
-                /// peticion tipo mapeo
-                lista = db.tb_Marca.Where(x => x.Nombre.ToUpper().Contains(filtro.ToUpper())).ToList();
-                /// 
+                if (String.IsNullOrWhiteSpace(filtro))
+                {
+                    lista = db.tb_Marca.ToList();
+                }
+                else
+                {
+                    /// peticion tipo mapeo
+                    lista = db.tb_Marca.Where(x => x.Nombre.ToUpper().Contains(filtro.ToUpper())).ToList();
+                }
             }
             return lista;
         }

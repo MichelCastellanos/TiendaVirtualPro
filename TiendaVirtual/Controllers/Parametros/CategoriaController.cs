@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AccesoDeDatos.Implementacion.Parametros;
+using AccesoDeDatos.modelos;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -6,18 +8,18 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using TiendaVirtual.Models;
+using AccesoDeDatos.modelos;
 
 namespace TiendaVirtual.Controllers.Parametros
 {
     public class CategoriaController : Controller
     {
-        private EllaYelDBEntities db = new EllaYelDBEntities();
+        private ImplCategoriaDatos acceso = new ImplCategoriaDatos();
 
         // GET: Categoria
-        public ActionResult Index()
+        public ActionResult Index(string filtro="")
         {
-            return View(db.tb_Categoria.ToList());
+                return View(acceso.ListarRegistros(filtro));
         }
 
         // GET: Categoria/Details/5
@@ -27,7 +29,7 @@ namespace TiendaVirtual.Controllers.Parametros
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_Categoria tb_Categoria = db.tb_Categoria.Find(id);
+            tb_Categoria tb_Categoria = acceso.BuscarRegistro(id.Value);
             if (tb_Categoria == null)
             {
                 return HttpNotFound();
@@ -50,8 +52,7 @@ namespace TiendaVirtual.Controllers.Parametros
         {
             if (ModelState.IsValid)
             {
-                db.tb_Categoria.Add(tb_Categoria);
-                db.SaveChanges();
+                acceso.GuardarRegistro(tb_Categoria);
                 return RedirectToAction("Index");
             }
 
@@ -65,7 +66,7 @@ namespace TiendaVirtual.Controllers.Parametros
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_Categoria tb_Categoria = db.tb_Categoria.Find(id);
+            tb_Categoria tb_Categoria = acceso.BuscarRegistro(id.Value);
             if (tb_Categoria == null)
             {
                 return HttpNotFound();
@@ -82,8 +83,7 @@ namespace TiendaVirtual.Controllers.Parametros
         {
             if (ModelState.IsValid)
             {
-                db.Entry(tb_Categoria).State = EntityState.Modified;
-                db.SaveChanges();
+                acceso.EditarRegistro(tb_Categoria);
                 return RedirectToAction("Index");
             }
             return View(tb_Categoria);
@@ -96,7 +96,7 @@ namespace TiendaVirtual.Controllers.Parametros
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_Categoria tb_Categoria = db.tb_Categoria.Find(id);
+            tb_Categoria tb_Categoria = acceso.BuscarRegistro(id.Value);
             if (tb_Categoria == null)
             {
                 return HttpNotFound();
@@ -109,19 +109,9 @@ namespace TiendaVirtual.Controllers.Parametros
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            tb_Categoria tb_Categoria = db.tb_Categoria.Find(id);
-            db.tb_Categoria.Remove(tb_Categoria);
-            db.SaveChanges();
+            acceso.BorrarRegistro(id);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }
