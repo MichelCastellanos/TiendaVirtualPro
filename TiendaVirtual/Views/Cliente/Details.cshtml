@@ -1,0 +1,106 @@
+﻿@model TiendaVirtual.Models.tb_Cliente
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>tb_Cliente</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Primer_Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Primer_Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Segundo_Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Segundo_Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Primer_Apellido)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Primer_Apellido)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Segundo_Apellido)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Segundo_Apellido)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Numero_Doc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Numero_Doc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Celular)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Celular)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha_Creado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha_Creado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Editor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Editor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha_Edicion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha_Edicion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tb_Vendedor.Primer_Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tb_Vendedor.Primer_Nombre)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

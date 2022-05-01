@@ -1,0 +1,541 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="EllaYelDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tb_Categoria">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_Cliente">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Primer_Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Segundo_Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Primer_Apellido" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Segundo_Apellido" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Numero_Doc" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Celular" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Creador" Type="int" Nullable="false" />
+          <Property Name="Fecha_Creado" Type="datetime" Nullable="false" />
+          <Property Name="Editor" Type="int" />
+          <Property Name="Fecha_Edicion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tb_Foto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ruta" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Id_Zapato" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_Marca">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_Proveedor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RazonSocial" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Jefe_Cargo" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Direccion" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Telefono" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_Usuario_Vendedor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Usuario" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Clave" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Id_Vendedor" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_Vendedor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Primer_Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Segundo_Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Primer_Apellido" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Segundo_Apellido" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Numero_Doc" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Celular" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Foto" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_Zapato">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Color" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Modelo" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Precio" Type="int" Nullable="false" />
+          <Property Name="Descuento" Type="int" />
+          <Property Name="Talla" Type="int" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+          <Property Name="Genero" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Id_Proveedor" Type="int" Nullable="false" />
+          <Property Name="Id_Marca" Type="int" Nullable="false" />
+          <Property Name="Id_Categoria" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__tb_Client__Cread__2C3393D0">
+          <End Role="tb_Vendedor" Type="Self.tb_Vendedor" Multiplicity="1" />
+          <End Role="tb_Cliente" Type="Self.tb_Cliente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Vendedor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tb_Cliente">
+              <PropertyRef Name="Creador" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_Foto__Id_Zapa__36B12243">
+          <End Role="tb_Zapato" Type="Self.tb_Zapato" Multiplicity="1" />
+          <End Role="tb_Foto" Type="Self.tb_Foto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Zapato">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tb_Foto">
+              <PropertyRef Name="Id_Zapato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_Usuari__Id_Ve__2F10007B">
+          <End Role="tb_Vendedor" Type="Self.tb_Vendedor" Multiplicity="1" />
+          <End Role="tb_Usuario_Vendedor" Type="Self.tb_Usuario_Vendedor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Vendedor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tb_Usuario_Vendedor">
+              <PropertyRef Name="Id_Vendedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_Zapato__Id_Ca__33D4B598">
+          <End Role="tb_Categoria" Type="Self.tb_Categoria" Multiplicity="1" />
+          <End Role="tb_Zapato" Type="Self.tb_Zapato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Categoria">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tb_Zapato">
+              <PropertyRef Name="Id_Categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_Zapato__Id_Ma__32E0915F">
+          <End Role="tb_Marca" Type="Self.tb_Marca" Multiplicity="1" />
+          <End Role="tb_Zapato" Type="Self.tb_Zapato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Marca">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tb_Zapato">
+              <PropertyRef Name="Id_Marca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_Zapato__Id_Pr__31EC6D26">
+          <End Role="tb_Proveedor" Type="Self.tb_Proveedor" Multiplicity="1" />
+          <End Role="tb_Zapato" Type="Self.tb_Zapato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Proveedor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tb_Zapato">
+              <PropertyRef Name="Id_Proveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EllaYelDBModelStoreContainer">
+          <EntitySet Name="tb_Categoria" EntityType="Self.tb_Categoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Cliente" EntityType="Self.tb_Cliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Foto" EntityType="Self.tb_Foto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Marca" EntityType="Self.tb_Marca" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Proveedor" EntityType="Self.tb_Proveedor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Usuario_Vendedor" EntityType="Self.tb_Usuario_Vendedor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Vendedor" EntityType="Self.tb_Vendedor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Zapato" EntityType="Self.tb_Zapato" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__tb_Client__Cread__2C3393D0" Association="Self.FK__tb_Client__Cread__2C3393D0">
+            <End Role="tb_Vendedor" EntitySet="tb_Vendedor" />
+            <End Role="tb_Cliente" EntitySet="tb_Cliente" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_Foto__Id_Zapa__36B12243" Association="Self.FK__tb_Foto__Id_Zapa__36B12243">
+            <End Role="tb_Zapato" EntitySet="tb_Zapato" />
+            <End Role="tb_Foto" EntitySet="tb_Foto" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_Usuari__Id_Ve__2F10007B" Association="Self.FK__tb_Usuari__Id_Ve__2F10007B">
+            <End Role="tb_Vendedor" EntitySet="tb_Vendedor" />
+            <End Role="tb_Usuario_Vendedor" EntitySet="tb_Usuario_Vendedor" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_Zapato__Id_Ca__33D4B598" Association="Self.FK__tb_Zapato__Id_Ca__33D4B598">
+            <End Role="tb_Categoria" EntitySet="tb_Categoria" />
+            <End Role="tb_Zapato" EntitySet="tb_Zapato" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_Zapato__Id_Ma__32E0915F" Association="Self.FK__tb_Zapato__Id_Ma__32E0915F">
+            <End Role="tb_Marca" EntitySet="tb_Marca" />
+            <End Role="tb_Zapato" EntitySet="tb_Zapato" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_Zapato__Id_Pr__31EC6D26" Association="Self.FK__tb_Zapato__Id_Pr__31EC6D26">
+            <End Role="tb_Proveedor" EntitySet="tb_Proveedor" />
+            <End Role="tb_Zapato" EntitySet="tb_Zapato" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EllaYelDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tb_Categoria">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="tb_Zapato" Relationship="Self.FK__tb_Zapato__Id_Ca__33D4B598" FromRole="tb_Categoria" ToRole="tb_Zapato" />
+        </EntityType>
+        <EntityType Name="tb_Cliente">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Primer_Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Segundo_Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Primer_Apellido" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Segundo_Apellido" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Numero_Doc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Celular" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Creador" Type="Int32" Nullable="false" />
+          <Property Name="Fecha_Creado" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Editor" Type="Int32" />
+          <Property Name="Fecha_Edicion" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tb_Vendedor" Relationship="Self.FK__tb_Client__Cread__2C3393D0" FromRole="tb_Cliente" ToRole="tb_Vendedor" />
+        </EntityType>
+        <EntityType Name="tb_Foto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ruta" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Id_Zapato" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tb_Zapato" Relationship="Self.FK__tb_Foto__Id_Zapa__36B12243" FromRole="tb_Foto" ToRole="tb_Zapato" />
+        </EntityType>
+        <EntityType Name="tb_Marca">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="tb_Zapato" Relationship="Self.FK__tb_Zapato__Id_Ma__32E0915F" FromRole="tb_Marca" ToRole="tb_Zapato" />
+        </EntityType>
+        <EntityType Name="tb_Proveedor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RazonSocial" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Jefe_Cargo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Direccion" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Telefono" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="tb_Zapato" Relationship="Self.FK__tb_Zapato__Id_Pr__31EC6D26" FromRole="tb_Proveedor" ToRole="tb_Zapato" />
+        </EntityType>
+        <EntityType Name="tb_Usuario_Vendedor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Usuario" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Clave" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Id_Vendedor" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tb_Vendedor" Relationship="Self.FK__tb_Usuari__Id_Ve__2F10007B" FromRole="tb_Usuario_Vendedor" ToRole="tb_Vendedor" />
+        </EntityType>
+        <EntityType Name="tb_Vendedor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Primer_Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Segundo_Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Primer_Apellido" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Segundo_Apellido" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Numero_Doc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Celular" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Foto" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="tb_Cliente" Relationship="Self.FK__tb_Client__Cread__2C3393D0" FromRole="tb_Vendedor" ToRole="tb_Cliente" />
+          <NavigationProperty Name="tb_Usuario_Vendedor" Relationship="Self.FK__tb_Usuari__Id_Ve__2F10007B" FromRole="tb_Vendedor" ToRole="tb_Usuario_Vendedor" />
+        </EntityType>
+        <EntityType Name="tb_Zapato">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Color" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Modelo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Precio" Type="Int32" Nullable="false" />
+          <Property Name="Descuento" Type="Int32" />
+          <Property Name="Talla" Type="Int32" Nullable="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <Property Name="Genero" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Id_Proveedor" Type="Int32" Nullable="false" />
+          <Property Name="Id_Marca" Type="Int32" Nullable="false" />
+          <Property Name="Id_Categoria" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tb_Categoria" Relationship="Self.FK__tb_Zapato__Id_Ca__33D4B598" FromRole="tb_Zapato" ToRole="tb_Categoria" />
+          <NavigationProperty Name="tb_Foto" Relationship="Self.FK__tb_Foto__Id_Zapa__36B12243" FromRole="tb_Zapato" ToRole="tb_Foto" />
+          <NavigationProperty Name="tb_Marca" Relationship="Self.FK__tb_Zapato__Id_Ma__32E0915F" FromRole="tb_Zapato" ToRole="tb_Marca" />
+          <NavigationProperty Name="tb_Proveedor" Relationship="Self.FK__tb_Zapato__Id_Pr__31EC6D26" FromRole="tb_Zapato" ToRole="tb_Proveedor" />
+        </EntityType>
+        <Association Name="FK__tb_Zapato__Id_Ca__33D4B598">
+          <End Role="tb_Categoria" Type="Self.tb_Categoria" Multiplicity="1" />
+          <End Role="tb_Zapato" Type="Self.tb_Zapato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Categoria">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tb_Zapato">
+              <PropertyRef Name="Id_Categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_Client__Cread__2C3393D0">
+          <End Role="tb_Vendedor" Type="Self.tb_Vendedor" Multiplicity="1" />
+          <End Role="tb_Cliente" Type="Self.tb_Cliente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Vendedor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tb_Cliente">
+              <PropertyRef Name="Creador" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_Foto__Id_Zapa__36B12243">
+          <End Role="tb_Zapato" Type="Self.tb_Zapato" Multiplicity="1" />
+          <End Role="tb_Foto" Type="Self.tb_Foto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Zapato">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tb_Foto">
+              <PropertyRef Name="Id_Zapato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_Zapato__Id_Ma__32E0915F">
+          <End Role="tb_Marca" Type="Self.tb_Marca" Multiplicity="1" />
+          <End Role="tb_Zapato" Type="Self.tb_Zapato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Marca">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tb_Zapato">
+              <PropertyRef Name="Id_Marca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_Zapato__Id_Pr__31EC6D26">
+          <End Role="tb_Proveedor" Type="Self.tb_Proveedor" Multiplicity="1" />
+          <End Role="tb_Zapato" Type="Self.tb_Zapato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Proveedor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tb_Zapato">
+              <PropertyRef Name="Id_Proveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_Usuari__Id_Ve__2F10007B">
+          <End Role="tb_Vendedor" Type="Self.tb_Vendedor" Multiplicity="1" />
+          <End Role="tb_Usuario_Vendedor" Type="Self.tb_Usuario_Vendedor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Vendedor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tb_Usuario_Vendedor">
+              <PropertyRef Name="Id_Vendedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EllaYelDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tb_Categoria" EntityType="Self.tb_Categoria" />
+          <EntitySet Name="tb_Cliente" EntityType="Self.tb_Cliente" />
+          <EntitySet Name="tb_Foto" EntityType="Self.tb_Foto" />
+          <EntitySet Name="tb_Marca" EntityType="Self.tb_Marca" />
+          <EntitySet Name="tb_Proveedor" EntityType="Self.tb_Proveedor" />
+          <EntitySet Name="tb_Usuario_Vendedor" EntityType="Self.tb_Usuario_Vendedor" />
+          <EntitySet Name="tb_Vendedor" EntityType="Self.tb_Vendedor" />
+          <EntitySet Name="tb_Zapato" EntityType="Self.tb_Zapato" />
+          <AssociationSet Name="FK__tb_Zapato__Id_Ca__33D4B598" Association="Self.FK__tb_Zapato__Id_Ca__33D4B598">
+            <End Role="tb_Categoria" EntitySet="tb_Categoria" />
+            <End Role="tb_Zapato" EntitySet="tb_Zapato" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_Client__Cread__2C3393D0" Association="Self.FK__tb_Client__Cread__2C3393D0">
+            <End Role="tb_Vendedor" EntitySet="tb_Vendedor" />
+            <End Role="tb_Cliente" EntitySet="tb_Cliente" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_Foto__Id_Zapa__36B12243" Association="Self.FK__tb_Foto__Id_Zapa__36B12243">
+            <End Role="tb_Zapato" EntitySet="tb_Zapato" />
+            <End Role="tb_Foto" EntitySet="tb_Foto" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_Zapato__Id_Ma__32E0915F" Association="Self.FK__tb_Zapato__Id_Ma__32E0915F">
+            <End Role="tb_Marca" EntitySet="tb_Marca" />
+            <End Role="tb_Zapato" EntitySet="tb_Zapato" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_Zapato__Id_Pr__31EC6D26" Association="Self.FK__tb_Zapato__Id_Pr__31EC6D26">
+            <End Role="tb_Proveedor" EntitySet="tb_Proveedor" />
+            <End Role="tb_Zapato" EntitySet="tb_Zapato" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_Usuari__Id_Ve__2F10007B" Association="Self.FK__tb_Usuari__Id_Ve__2F10007B">
+            <End Role="tb_Vendedor" EntitySet="tb_Vendedor" />
+            <End Role="tb_Usuario_Vendedor" EntitySet="tb_Usuario_Vendedor" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EllaYelDBModelStoreContainer" CdmEntityContainer="EllaYelDBEntities">
+          <EntitySetMapping Name="tb_Categoria">
+            <EntityTypeMapping TypeName="EllaYelDBModel.tb_Categoria">
+              <MappingFragment StoreEntitySet="tb_Categoria">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Cliente">
+            <EntityTypeMapping TypeName="EllaYelDBModel.tb_Cliente">
+              <MappingFragment StoreEntitySet="tb_Cliente">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Primer_Nombre" ColumnName="Primer_Nombre" />
+                <ScalarProperty Name="Segundo_Nombre" ColumnName="Segundo_Nombre" />
+                <ScalarProperty Name="Primer_Apellido" ColumnName="Primer_Apellido" />
+                <ScalarProperty Name="Segundo_Apellido" ColumnName="Segundo_Apellido" />
+                <ScalarProperty Name="Numero_Doc" ColumnName="Numero_Doc" />
+                <ScalarProperty Name="Celular" ColumnName="Celular" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Creador" ColumnName="Creador" />
+                <ScalarProperty Name="Fecha_Creado" ColumnName="Fecha_Creado" />
+                <ScalarProperty Name="Editor" ColumnName="Editor" />
+                <ScalarProperty Name="Fecha_Edicion" ColumnName="Fecha_Edicion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Foto">
+            <EntityTypeMapping TypeName="EllaYelDBModel.tb_Foto">
+              <MappingFragment StoreEntitySet="tb_Foto">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Ruta" ColumnName="Ruta" />
+                <ScalarProperty Name="Id_Zapato" ColumnName="Id_Zapato" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Marca">
+            <EntityTypeMapping TypeName="EllaYelDBModel.tb_Marca">
+              <MappingFragment StoreEntitySet="tb_Marca">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Proveedor">
+            <EntityTypeMapping TypeName="EllaYelDBModel.tb_Proveedor">
+              <MappingFragment StoreEntitySet="tb_Proveedor">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="RazonSocial" ColumnName="RazonSocial" />
+                <ScalarProperty Name="Jefe_Cargo" ColumnName="Jefe_Cargo" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Usuario_Vendedor">
+            <EntityTypeMapping TypeName="EllaYelDBModel.tb_Usuario_Vendedor">
+              <MappingFragment StoreEntitySet="tb_Usuario_Vendedor">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Id_Vendedor" ColumnName="Id_Vendedor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Vendedor">
+            <EntityTypeMapping TypeName="EllaYelDBModel.tb_Vendedor">
+              <MappingFragment StoreEntitySet="tb_Vendedor">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Primer_Nombre" ColumnName="Primer_Nombre" />
+                <ScalarProperty Name="Segundo_Nombre" ColumnName="Segundo_Nombre" />
+                <ScalarProperty Name="Primer_Apellido" ColumnName="Primer_Apellido" />
+                <ScalarProperty Name="Segundo_Apellido" ColumnName="Segundo_Apellido" />
+                <ScalarProperty Name="Numero_Doc" ColumnName="Numero_Doc" />
+                <ScalarProperty Name="Celular" ColumnName="Celular" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Foto" ColumnName="Foto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Zapato">
+            <EntityTypeMapping TypeName="EllaYelDBModel.tb_Zapato">
+              <MappingFragment StoreEntitySet="tb_Zapato">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Descuento" ColumnName="Descuento" />
+                <ScalarProperty Name="Talla" ColumnName="Talla" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Genero" ColumnName="Genero" />
+                <ScalarProperty Name="Id_Proveedor" ColumnName="Id_Proveedor" />
+                <ScalarProperty Name="Id_Marca" ColumnName="Id_Marca" />
+                <ScalarProperty Name="Id_Categoria" ColumnName="Id_Categoria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

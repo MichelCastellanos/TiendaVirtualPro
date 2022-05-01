@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c92b60781c4f4113b0a9bca44ac99d4a" Name="Diagram1">
+        <EntityTypeShape EntityType="EllaYelDBModel.tb_Categoria" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EllaYelDBModel.tb_Cliente" Width="1.5" PointX="5" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EllaYelDBModel.tb_Foto" Width="1.5" PointX="5.25" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EllaYelDBModel.tb_Marca" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EllaYelDBModel.tb_Proveedor" Width="1.5" PointX="0.75" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EllaYelDBModel.tb_Usuario_Vendedor" Width="1.5" PointX="5" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EllaYelDBModel.tb_Vendedor" Width="1.5" PointX="2.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EllaYelDBModel.tb_Zapato" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="EllaYelDBModel.FK__tb_Zapato__Id_Ca__33D4B598" ManuallyRouted="false" />
+        <AssociationConnector Association="EllaYelDBModel.FK__tb_Client__Cread__2C3393D0" ManuallyRouted="false" />
+        <AssociationConnector Association="EllaYelDBModel.FK__tb_Foto__Id_Zapa__36B12243" ManuallyRouted="false" />
+        <AssociationConnector Association="EllaYelDBModel.FK__tb_Zapato__Id_Ma__32E0915F" ManuallyRouted="false" />
+        <AssociationConnector Association="EllaYelDBModel.FK__tb_Zapato__Id_Pr__31EC6D26" ManuallyRouted="false" />
+        <AssociationConnector Association="EllaYelDBModel.FK__tb_Usuari__Id_Ve__2F10007B" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
