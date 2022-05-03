@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace TiendaVirtual.Models.ModelosTiendaVirtualGUI.Parametros
+namespace TiendaVirtual.Models.ModelosGUI.Parametros
 {
     public class ModeloMarcaGUI
     {
@@ -15,11 +15,11 @@ namespace TiendaVirtual.Models.ModelosTiendaVirtualGUI.Parametros
             get { return id; }
             set { id = value; }
         }
-        private int nombre;
+        private string nombre;
 
         [Required]
         [MinLength(3)]
-        public int Nombre
+        public string Nombre
         {
             get { return nombre; }
             set { nombre = value; }

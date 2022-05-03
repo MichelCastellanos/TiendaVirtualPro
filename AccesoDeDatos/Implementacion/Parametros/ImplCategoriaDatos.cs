@@ -28,6 +28,13 @@ namespace AccesoDeDatos.Implementacion.Parametros
                 {
                     /// peticion tipo mapeo
                     lista = db.tb_Categoria.Where(x => x.Nombre.ToUpper().Contains(filtro.ToUpper())).ToList();
+                    /// peticion a base de datos tipo linq
+                    /*
+                    lista = (
+                        from c in db.tb_Categoria
+                        where c.Nombre.ToLower().Contains(filtro.ToLower())
+                        select c 
+                        ).ToList(); */
                 }
             }
             return lista;

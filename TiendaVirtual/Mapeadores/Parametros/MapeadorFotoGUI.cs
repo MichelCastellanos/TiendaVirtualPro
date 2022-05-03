@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace TiendaVirtual.Models.ModelosTiendaVirtualGUI.Parametros
+namespace TiendaVirtual.Mapeadores.Parametros
 {
-    public class ModeloProveedorGUI
+    public class MapeadorFotoGUI
     {
     }
 }

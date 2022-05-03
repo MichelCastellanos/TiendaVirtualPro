@@ -8,7 +8,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using AccesoDeDatos.modelos;
+using TiendaVirtual.Helpers;
+using TiendaVirtual.Mapeadores.Parametros;
+using TiendaVirtual.Models.ModelosGUI.Parametros;
 
 namespace TiendaVirtual.Controllers.Parametros
 {
@@ -16,13 +18,17 @@ namespace TiendaVirtual.Controllers.Parametros
     {
         private ImplCategoriaDatos acceso = new ImplCategoriaDatos();
 
-        // GET: Categoria
-        public ActionResult Index(string filtro="")
+        // GET: Marca
+        public ActionResult Index(String filtro = "")
         {
-                return View(acceso.ListarRegistros(filtro));
+            IEnumerable<tb_Categoria> ListaDatos = acceso.ListarRegistros(filtro).ToList();
+            MapeadorCategoriaGUI mapper = new MapeadorCategoriaGUI();
+            IEnumerable<ModeloCategoriaGUI> ListaGUI = mapper.MapearTipo1Tipo2(ListaDatos);
+            return View(ListaGUI);
+
         }
 
-        // GET: Categoria/Details/5
+        // GET: Marca/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -34,32 +40,36 @@ namespace TiendaVirtual.Controllers.Parametros
             {
                 return HttpNotFound();
             }
-            return View(tb_Categoria);
+            MapeadorCategoriaGUI mapper = new MapeadorCategoriaGUI();
+            ModeloCategoriaGUI modelo = mapper.MapearTipo1Tipo2(tb_Categoria);
+            return View(modelo);
         }
 
-        // GET: Categoria/Create
+        // GET: Marca/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Categoria/Create
+        // POST: Marca/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nombre")] tb_Categoria tb_Categoria)
+        public ActionResult Create([Bind(Include = "Id,Nombre")] ModeloCategoriaGUI modelo)
         {
             if (ModelState.IsValid)
             {
-                acceso.GuardarRegistro(tb_Categoria);
+                MapeadorCategoriaGUI mapper = new MapeadorCategoriaGUI();
+                tb_Categoria marca = mapper.MapearTipo2Tipo1(modelo);
+                acceso.GuardarRegistro(marca);
                 return RedirectToAction("Index");
             }
 
-            return View(tb_Categoria);
+            return View(modelo);
         }
 
-        // GET: Categoria/Edit/5
+        // GET: Marca/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -71,25 +81,30 @@ namespace TiendaVirtual.Controllers.Parametros
             {
                 return HttpNotFound();
             }
-            return View(tb_Categoria);
+            MapeadorCategoriaGUI mapper = new MapeadorCategoriaGUI();
+            ModeloCategoriaGUI modelo = mapper.MapearTipo1Tipo2(tb_Categoria);
+            return View(modelo);
         }
 
-        // POST: Categoria/Edit/5
+        // POST: Marca/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Nombre")] tb_Categoria tb_Categoria)
+        public ActionResult Edit([Bind(Include = "Id,Nombre")] ModeloCategoriaGUI modelo)
         {
             if (ModelState.IsValid)
             {
-                acceso.EditarRegistro(tb_Categoria);
+                MapeadorCategoriaGUI mapper = new MapeadorCategoriaGUI();
+                tb_Categoria marca = mapper.MapearTipo2Tipo1(modelo);
+                acceso.EditarRegistro(marca);
                 return RedirectToAction("Index");
             }
-            return View(tb_Categoria);
+
+            return View(modelo);
         }
 
-        // GET: Categoria/Delete/5
+        // GET: Marca/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -101,17 +116,42 @@ namespace TiendaVirtual.Controllers.Parametros
             {
                 return HttpNotFound();
             }
-            return View(tb_Categoria);
+            MapeadorCategoriaGUI mapper = new MapeadorCategoriaGUI();
+            ViewBag.Mensaje = Mensajes.MensajeEdicionCorrecta;
+            ModeloCategoriaGUI modelo = mapper.MapearTipo1Tipo2(tb_Categoria);
+            return View(modelo);
         }
 
-        // POST: Categoria/Delete/5
+        // POST: Marca/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            acceso.BorrarRegistro(id);
-            return RedirectToAction("Index");
+
+            bool respuesta = acceso.BorrarRegistro(id);
+            // si hay un registro encontrado
+            if (respuesta)
+            {
+                return RedirectToAction("Index");
+            }
+            // FALSE : si no hay registro encontrado
+            else
+            {
+                // rebuscar el id para volverlo a la vista
+                tb_Categoria tb_Categoria = acceso.BuscarRegistro(id);
+                if (tb_Categoria == null)
+                {
+                    return HttpNotFound();
+                }
+                // mapear y mostrar el mensaje con el objeto a borrar
+                MapeadorCategoriaGUI mapper = new MapeadorCategoriaGUI();
+                ViewBag.Mensaje = Mensajes.MensajeErrorBorrar;
+                ModeloCategoriaGUI modelo = mapper.MapearTipo1Tipo2(tb_Categoria);
+                // retornar la vista con su respecivo modelo anterior
+                return View(modelo);
+            }
         }
+
 
     }
 }

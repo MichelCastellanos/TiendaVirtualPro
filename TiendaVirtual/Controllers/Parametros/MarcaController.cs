@@ -8,6 +8,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using TiendaVirtual.Helpers;
+using TiendaVirtual.Mapeadores.Parametros;
+using TiendaVirtual.Models.ModelosGUI.Parametros;
 
 namespace TiendaVirtual.Controllers.Parametros
 {
@@ -18,7 +21,11 @@ namespace TiendaVirtual.Controllers.Parametros
         // GET: Marca
         public ActionResult Index(String filtro= "")
         {
-                return View(acceso.ListarRegistros(String.Empty));
+            IEnumerable<tb_Marca> ListaDatos = acceso.ListarRegistros(filtro).ToList();
+            MapeadorMarcaGUI mapper = new MapeadorMarcaGUI();
+            IEnumerable<ModeloMarcaGUI> ListaGUI = mapper.MapearTipo1Tipo2(ListaDatos);
+            return View(ListaGUI);
+
         }
 
         // GET: Marca/Details/5
@@ -33,7 +40,9 @@ namespace TiendaVirtual.Controllers.Parametros
             {
                 return HttpNotFound();
             }
-            return View(tb_Marca);
+            MapeadorMarcaGUI mapper = new MapeadorMarcaGUI();
+            ModeloMarcaGUI modelo = mapper.MapearTipo1Tipo2(tb_Marca);
+            return View(modelo);
         }
 
         // GET: Marca/Create
@@ -47,15 +56,17 @@ namespace TiendaVirtual.Controllers.Parametros
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nombre")] tb_Marca tb_Marca)
+        public ActionResult Create([Bind(Include = "Id,Nombre")] ModeloMarcaGUI modelo)
         {
             if (ModelState.IsValid)
             {
-                acceso.GuardarRegistro(tb_Marca);
+                MapeadorMarcaGUI mapper = new MapeadorMarcaGUI();
+                tb_Marca marca = mapper.MapearTipo2Tipo1(modelo);
+                acceso.GuardarRegistro(marca);
                 return RedirectToAction("Index");
             }
 
-            return View(tb_Marca);
+            return View(modelo);
         }
 
         // GET: Marca/Edit/5
@@ -70,7 +81,9 @@ namespace TiendaVirtual.Controllers.Parametros
             {
                 return HttpNotFound();
             }
-            return View(tb_Marca);
+            MapeadorMarcaGUI mapper = new MapeadorMarcaGUI();
+            ModeloMarcaGUI modelo = mapper.MapearTipo1Tipo2(tb_Marca);
+            return View(modelo);
         }
 
         // POST: Marca/Edit/5
@@ -78,14 +91,17 @@ namespace TiendaVirtual.Controllers.Parametros
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Nombre")] tb_Marca tb_Marca)
+        public ActionResult Edit([Bind(Include = "Id,Nombre")] ModeloMarcaGUI modelo)
         {
             if (ModelState.IsValid)
             {
-                acceso.EditarRegistro(tb_Marca);
+                MapeadorMarcaGUI mapper = new MapeadorMarcaGUI();
+                tb_Marca marca = mapper.MapearTipo2Tipo1(modelo);
+                acceso.EditarRegistro(marca);
                 return RedirectToAction("Index");
             }
-            return View(tb_Marca);
+
+            return View(modelo);
         }
 
         // GET: Marca/Delete/5
@@ -100,7 +116,10 @@ namespace TiendaVirtual.Controllers.Parametros
             {
                 return HttpNotFound();
             }
-            return View(tb_Marca);
+            MapeadorMarcaGUI mapper = new MapeadorMarcaGUI();
+            ViewBag.Mensaje = Mensajes.MensajeEdicionCorrecta;
+            ModeloMarcaGUI modelo = mapper.MapearTipo1Tipo2(tb_Marca);
+            return View(modelo);
         }
 
         // POST: Marca/Delete/5
@@ -108,8 +127,29 @@ namespace TiendaVirtual.Controllers.Parametros
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            acceso.BorrarRegistro(id);
-            return RedirectToAction("Index");
+
+            bool respuesta=acceso.BorrarRegistro(id);
+            // si hay un registro encontrado
+            if (respuesta)
+            {
+                return RedirectToAction("Index");
+            }
+            // FALSE : si no hay registro encontrado
+            else
+            {
+                // rebuscar el id para volverlo a la vista
+                tb_Marca tb_Marca = acceso.BuscarRegistro(id);
+                if (tb_Marca == null)
+                {
+                    return HttpNotFound();
+                }
+                // mapear y mostrar el mensaje con el objeto a borrar
+                MapeadorMarcaGUI mapper = new MapeadorMarcaGUI();
+                ViewBag.Mensaje = Mensajes.MensajeErrorBorrar;
+                ModeloMarcaGUI modelo = mapper.MapearTipo1Tipo2(tb_Marca);
+                // retornar la vista con su respecivo modelo anterior
+                return View(modelo);
+            }
         }
 
         

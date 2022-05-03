@@ -9,6 +9,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AccesoDeDatos.modelos;
+using TiendaVirtual.Mapeadores.Parametros;
+using TiendaVirtual.Models.ModelosGUI.Parametros;
+using TiendaVirtual.Helpers;
 
 namespace TiendaVirtual.Controllers.Parametros
 {
@@ -16,13 +19,17 @@ namespace TiendaVirtual.Controllers.Parametros
     {
         private ImplProveedorDatos acceso = new ImplProveedorDatos();
 
-        // GET: Proveedor
-        public ActionResult Index(string filtro = "")
+        // GET: Marca
+        public ActionResult Index(String filtro = "")
         {
-                return View(acceso.ListarRegistros(filtro));
+            IEnumerable<tb_Proveedor> ListaDatos = acceso.ListarRegistros(filtro).ToList();
+            MapeadorProveedorGUI mapper = new MapeadorProveedorGUI();
+            IEnumerable<ModeloProveedorGUI> ListaGUI = mapper.MapearTipo1Tipo2(ListaDatos);
+            return View(ListaGUI);
+
         }
 
-        // GET: Proveedor/Details/5
+        // GET: Marca/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -34,32 +41,36 @@ namespace TiendaVirtual.Controllers.Parametros
             {
                 return HttpNotFound();
             }
-            return View(tb_Proveedor);
+            MapeadorProveedorGUI mapper = new MapeadorProveedorGUI();
+            ModeloProveedorGUI modelo = mapper.MapearTipo1Tipo2(tb_Proveedor);
+            return View(modelo);
         }
 
-        // GET: Proveedor/Create
+        // GET: Marca/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Proveedor/Create
+        // POST: Marca/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,RazonSocial,Jefe_Cargo,Direccion,Telefono,Email")] tb_Proveedor tb_Proveedor)
+        public ActionResult Create([Bind(Include = "Id,Nombre")] ModeloProveedorGUI modelo)
         {
             if (ModelState.IsValid)
             {
-                acceso.GuardarRegistro(tb_Proveedor);
+                MapeadorProveedorGUI mapper = new MapeadorProveedorGUI();
+                tb_Proveedor marca = mapper.MapearTipo2Tipo1(modelo);
+                acceso.GuardarRegistro(marca);
                 return RedirectToAction("Index");
             }
 
-            return View(tb_Proveedor);
+            return View(modelo);
         }
 
-        // GET: Proveedor/Edit/5
+        // GET: Marca/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -71,25 +82,30 @@ namespace TiendaVirtual.Controllers.Parametros
             {
                 return HttpNotFound();
             }
-            return View(tb_Proveedor);
+            MapeadorProveedorGUI mapper = new MapeadorProveedorGUI();
+            ModeloProveedorGUI modelo = mapper.MapearTipo1Tipo2(tb_Proveedor);
+            return View(modelo);
         }
 
-        // POST: Proveedor/Edit/5
+        // POST: Marca/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,RazonSocial,Jefe_Cargo,Direccion,Telefono,Email")] tb_Proveedor tb_Proveedor)
+        public ActionResult Edit([Bind(Include = "Id,Nombre")] ModeloProveedorGUI modelo)
         {
             if (ModelState.IsValid)
             {
-                acceso.EditarRegistro(tb_Proveedor);
+                MapeadorProveedorGUI mapper = new MapeadorProveedorGUI();
+                tb_Proveedor marca = mapper.MapearTipo2Tipo1(modelo);
+                acceso.EditarRegistro(marca);
                 return RedirectToAction("Index");
             }
-            return View(tb_Proveedor);
+
+            return View(modelo);
         }
 
-        // GET: Proveedor/Delete/5
+        // GET: Marca/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -101,16 +117,42 @@ namespace TiendaVirtual.Controllers.Parametros
             {
                 return HttpNotFound();
             }
-            return View(tb_Proveedor);
+            MapeadorProveedorGUI mapper = new MapeadorProveedorGUI();
+            ViewBag.Mensaje = Mensajes.MensajeEdicionCorrecta;
+            ModeloProveedorGUI modelo = mapper.MapearTipo1Tipo2(tb_Proveedor);
+            return View(modelo);
         }
 
-        // POST: Proveedor/Delete/5
+        // POST: Marca/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            acceso.BorrarRegistro(id);
-            return RedirectToAction("Index");
+
+            bool respuesta = acceso.BorrarRegistro(id);
+            // si hay un registro encontrado
+            if (respuesta)
+            {
+                return RedirectToAction("Index");
+            }
+            // FALSE : si no hay registro encontrado
+            else
+            {
+                // rebuscar el id para volverlo a la vista
+                tb_Proveedor tb_Proveedor = acceso.BuscarRegistro(id);
+                if (tb_Proveedor == null)
+                {
+                    return HttpNotFound();
+                }
+                // mapear y mostrar el mensaje con el objeto a borrar
+                MapeadorProveedorGUI mapper = new MapeadorProveedorGUI();
+                ViewBag.Mensaje = Mensajes.MensajeErrorBorrar;
+                ModeloProveedorGUI modelo = mapper.MapearTipo1Tipo2(tb_Proveedor);
+                // retornar la vista con su respecivo modelo anterior
+                return View(modelo);
+            }
         }
+
+
     }
 }
