@@ -2,13 +2,9 @@
 using AccesoDeDatos.modelos;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using AccesoDeDatos.modelos;
 using TiendaVirtual.Mapeadores.Parametros;
 using TiendaVirtual.Models.ModelosGUI.Parametros;
 using TiendaVirtual.Helpers;
@@ -118,7 +114,6 @@ namespace TiendaVirtual.Controllers.Parametros
                 return HttpNotFound();
             }
             MapeadorProveedorGUI mapper = new MapeadorProveedorGUI();
-            ViewBag.Mensaje = Mensajes.MensajeEdicionCorrecta;
             ModeloProveedorGUI modelo = mapper.MapearTipo1Tipo2(tb_Proveedor);
             return View(modelo);
         }

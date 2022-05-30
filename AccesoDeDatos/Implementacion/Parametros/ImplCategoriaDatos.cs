@@ -99,7 +99,7 @@ namespace AccesoDeDatos.Implementacion.Parametros
             using (EllaYelDBEntities db = new EllaYelDBEntities())
             {
                 tb_Categoria registro = db.tb_Categoria.Find(id);
-                if (registro == null)
+                if (registro == null || registro.tb_Zapato.Count() > 0)
                 {
                     return false;
                 }

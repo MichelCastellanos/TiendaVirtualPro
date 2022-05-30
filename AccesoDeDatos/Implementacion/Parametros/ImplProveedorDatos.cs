@@ -108,7 +108,7 @@ namespace AccesoDeDatos.Implementacion.Parametros
             {
                 // encontrar un registro con el id requerido
                 tb_Proveedor registro = db.tb_Proveedor.Find(id);
-                if (registro == null)
+                if (registro == null || registro.tb_Zapato.Count() > 0)
                 {
                     return false;
                 }

@@ -117,7 +117,6 @@ namespace TiendaVirtual.Controllers.Parametros
                 return HttpNotFound();
             }
             MapeadorMarcaGUI mapper = new MapeadorMarcaGUI();
-            ViewBag.Mensaje = Mensajes.MensajeEdicionCorrecta;
             ModeloMarcaGUI modelo = mapper.MapearTipo1Tipo2(tb_Marca);
             return View(modelo);
         }

@@ -102,7 +102,7 @@ namespace AccesoDeDatos.Implementacion.Zapatos
             {
                 // encontrar un registro con el id requerido
                 tb_Zapato registro = db.tb_Zapato.Find(id);
-                if (registro == null)
+                if (registro == null )
                 {
                     return false;
                 }
