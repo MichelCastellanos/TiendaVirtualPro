@@ -3,6 +3,9 @@
 @{
     ViewBag.Title = "Index";
 }
+@using PagedList.Mvc;
+@using PagedList; <!--import this so we can cast our list to IPagedList (only necessary because ViewBag is dynamic)--->
+
 
 <h2>Index</h2>
 
@@ -34,3 +37,4 @@
     }
 
 </table>
+@Html.PagedListPager( (IPagedList)Model, page => Url.Action("Index", new { page }) )

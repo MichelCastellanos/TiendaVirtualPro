@@ -15,20 +15,24 @@ namespace AccesoDeDatos.Implementacion.Parametros
         /// </summary>
         /// <param name="filtro">filtro a aplicar</param>
         /// <returns></returns>
-        public IEnumerable <tb_Marca> ListarRegistros(String filtro)
+        public IEnumerable <tb_Marca> ListarRegistros(String filtro,int PaginaActual, int numeroRegistroPagina, out int totalRegistros)
         {
             var lista = new List<tb_Marca>();
             using (EllaYelDBEntities db = new EllaYelDBEntities())
             {
-                if (String.IsNullOrWhiteSpace(filtro))
-                {
-                    lista = db.tb_Marca.ToList();
-                }
-                else
-                {
-                    /// peticion tipo mapeo
-                    lista = db.tb_Marca.Where(x => x.Nombre.ToUpper().Contains(filtro.ToUpper())).ToList();
-                }
+                // pag 1 = 1-10
+                // pag 2 = 11-20
+                // pag 3 = 21-30
+                // pag 1 = 31-40
+                // pag 1 = 41-50
+                int registrosDescartados = (PaginaActual - 1) * numeroRegistroPagina;
+                /// peticion tipo mapeo
+                // lista = db.tb_Marca.Where(x => x.Nombre.Contains(filtro)).Skip(registrosDescartados).Take(numeroRegistroPagina).ToList();
+                lista = (from m in db.tb_Marca
+                         where m.Nombre.Contains(filtro)
+                         select m).ToList();
+                totalRegistros = lista.Count();
+                lista = lista.OrderBy(m => m.Id).Skip(registrosDescartados).Take(numeroRegistroPagina).ToList();
             }
             return lista;
         }

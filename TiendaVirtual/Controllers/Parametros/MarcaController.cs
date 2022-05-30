@@ -1,12 +1,10 @@
 ﻿using AccesoDeDatos.Implementacion.Parametros;
 using AccesoDeDatos.modelos;
+using PagedList;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using TiendaVirtual.Helpers;
 using TiendaVirtual.Mapeadores.Parametros;
@@ -19,13 +17,17 @@ namespace TiendaVirtual.Controllers.Parametros
         private ImplMarcaDatos acceso = new ImplMarcaDatos();
 
         // GET: Marca
-        public ActionResult Index(String filtro= "")
+        public ActionResult Index(int? page,String filtro= "")
         {
-            IEnumerable<tb_Marca> ListaDatos = acceso.ListarRegistros(filtro).ToList();
+            int numeroPag = page ?? 1;
+            int totalRegistros;
+            int numeroRegistrosPagina= DatosGenerales.RegistrosPorPagina;
+            IEnumerable<tb_Marca> ListaDatos = acceso.ListarRegistros(filtro,numeroPag, numeroRegistrosPagina, out totalRegistros).ToList();
             MapeadorMarcaGUI mapper = new MapeadorMarcaGUI();
             IEnumerable<ModeloMarcaGUI> ListaGUI = mapper.MapearTipo1Tipo2(ListaDatos);
-            return View(ListaGUI);
-
+            //var registrosPagina = ListaGUI.ToPagedList(numeroPag, 25);
+            var listaPagina = new StaticPagedList<ModeloMarcaGUI>(ListaGUI, numeroPag, numeroRegistrosPagina, totalRegistros);
+            return View(listaPagina);
         }
 
         // GET: Marca/Details/5
