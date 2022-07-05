@@ -12,6 +12,7 @@ namespace TiendaVirtual.Controllers.Cliente
 {
     public class ClienteController : Controller
     {
+        /*
         private EllaYelDBEntities db = new EllaYelDBEntities();
 
         // GET: Cliente
@@ -127,6 +128,8 @@ namespace TiendaVirtual.Controllers.Cliente
                 db.Dispose();
             }
             base.Dispose(disposing);
+
         }
+        */
     }
 }

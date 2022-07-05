@@ -1,4 +1,6 @@
-﻿using AccesoDeDatos.modelos;
+﻿using AccesoDeDatos.DbModel.Parametros;
+using AccesoDeDatos.Mapeadores.Parametros;
+using AccesoDeDatos.modelos;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -15,7 +17,7 @@ namespace AccesoDeDatos.Implementacion.Parametros
         /// </summary>
         /// <param name="filtro">filtro a aplicar</param>
         /// <returns></returns>
-        public IEnumerable<tb_Categoria> ListarRegistros(string filtro)
+        public IEnumerable<CategoriaDbModel> ListarRegistros(string filtro)
         {
             var lista = new List<tb_Categoria>();
             using (EllaYelDBEntities db = new EllaYelDBEntities())
@@ -37,17 +39,18 @@ namespace AccesoDeDatos.Implementacion.Parametros
                         ).ToList(); */
                 }
             }
-            return lista;
+            return new MapeadorCategoriaDatos().MapearTipo1Tipo2(lista);
         }
         /// <summary>
         /// metodo para guardar registro
         /// </summary>
         /// <param name="registro">registro objeto a guardar</param>
         /// <returns>true si guardo y false cuando ya existe un registro igual o hay una excepcion</returns>
-        public bool GuardarRegistro(tb_Categoria registro)
+        public bool GuardarRegistro(CategoriaDbModel registro)
         {
             try
             {
+                
                 using (EllaYelDBEntities db = new EllaYelDBEntities())
                 {
                     // verificacion de un registro con el mismo nombre
@@ -55,7 +58,9 @@ namespace AccesoDeDatos.Implementacion.Parametros
                     {
                         return false;
                     }
-                    db.tb_Categoria.Add(registro);
+                    MapeadorCategoriaDatos mapeador = new MapeadorCategoriaDatos();
+                    var registroMapeado = mapeador.MapearTipo2Tipo1(registro);
+                    db.tb_Categoria.Add(registroMapeado);
                     db.SaveChanges();
                     return true;
                 }
@@ -65,25 +70,28 @@ namespace AccesoDeDatos.Implementacion.Parametros
                 throw e;
             }
         }
-        public tb_Categoria BuscarRegistro(int id)
+        public CategoriaDbModel BuscarRegistro(int id)
         {
             using (EllaYelDBEntities db = new EllaYelDBEntities())
             {
                 tb_Categoria registro = db.tb_Categoria.Find(id);
-                return registro;
+                return new MapeadorCategoriaDatos().MapearTipo1Tipo2(registro);
             }
         }
-        public bool EditarRegistro(tb_Categoria registro)
+        public bool EditarRegistro(CategoriaDbModel registro)
         {
             try
             {
+                
                 using (EllaYelDBEntities db = new EllaYelDBEntities())
                 {
                     if (db.tb_Categoria.Where(x => x.Id == registro.Id).Count() == 0)
                     {
                         return false;
                     }
-                    db.Entry(registro).State = EntityState.Modified;
+                    MapeadorCategoriaDatos mapeador = new MapeadorCategoriaDatos();
+                    var registroMapeado = mapeador.MapearTipo2Tipo1(registro);
+                    db.Entry(registroMapeado).State = EntityState.Modified;
                     db.SaveChanges();
                     return true;
                 }

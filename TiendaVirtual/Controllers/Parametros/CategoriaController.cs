@@ -1,12 +1,9 @@
-﻿using AccesoDeDatos.Implementacion.Parametros;
-using AccesoDeDatos.modelos;
+﻿using Logica.DTO.Parametros;
+using Logica.Implementacion.Parametros;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using TiendaVirtual.Helpers;
 using TiendaVirtual.Mapeadores.Parametros;
@@ -16,12 +13,12 @@ namespace TiendaVirtual.Controllers.Parametros
 {
     public class CategoriaController : Controller
     {
-        private ImplCategoriaDatos acceso = new ImplCategoriaDatos();
+        private ImplCategoriaLogica logica = new ImplCategoriaLogica();
 
         // GET: Marca
         public ActionResult Index(String filtro = "")
         {
-            IEnumerable<tb_Categoria> ListaDatos = acceso.ListarRegistros(filtro).ToList();
+            IEnumerable<CategoriaDTO> ListaDatos = logica.ListarRegistros(filtro).ToList();
             MapeadorCategoriaGUI mapper = new MapeadorCategoriaGUI();
             IEnumerable<ModeloCategoriaGUI> ListaGUI = mapper.MapearTipo1Tipo2(ListaDatos);
             return View(ListaGUI);
@@ -35,13 +32,13 @@ namespace TiendaVirtual.Controllers.Parametros
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_Categoria tb_Categoria = acceso.BuscarRegistro(id.Value);
-            if (tb_Categoria == null)
+            CategoriaDTO CategoriaDTO = logica.BuscarRegistro(id.Value);
+            if (CategoriaDTO == null)
             {
                 return HttpNotFound();
             }
             MapeadorCategoriaGUI mapper = new MapeadorCategoriaGUI();
-            ModeloCategoriaGUI modelo = mapper.MapearTipo1Tipo2(tb_Categoria);
+            ModeloCategoriaGUI modelo = mapper.MapearTipo1Tipo2(CategoriaDTO);
             return View(modelo);
         }
 
@@ -61,8 +58,8 @@ namespace TiendaVirtual.Controllers.Parametros
             if (ModelState.IsValid)
             {
                 MapeadorCategoriaGUI mapper = new MapeadorCategoriaGUI();
-                tb_Categoria marca = mapper.MapearTipo2Tipo1(modelo);
-                acceso.GuardarRegistro(marca);
+                CategoriaDTO marca = mapper.MapearTipo2Tipo1(modelo);
+                logica.GuardarRegistro(marca);
                 return RedirectToAction("Index");
             }
 
@@ -76,13 +73,13 @@ namespace TiendaVirtual.Controllers.Parametros
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_Categoria tb_Categoria = acceso.BuscarRegistro(id.Value);
-            if (tb_Categoria == null)
+            CategoriaDTO CategoriaDTO = logica.BuscarRegistro(id.Value);
+            if (CategoriaDTO == null)
             {
                 return HttpNotFound();
             }
             MapeadorCategoriaGUI mapper = new MapeadorCategoriaGUI();
-            ModeloCategoriaGUI modelo = mapper.MapearTipo1Tipo2(tb_Categoria);
+            ModeloCategoriaGUI modelo = mapper.MapearTipo1Tipo2(CategoriaDTO);
             return View(modelo);
         }
 
@@ -96,8 +93,8 @@ namespace TiendaVirtual.Controllers.Parametros
             if (ModelState.IsValid)
             {
                 MapeadorCategoriaGUI mapper = new MapeadorCategoriaGUI();
-                tb_Categoria marca = mapper.MapearTipo2Tipo1(modelo);
-                acceso.EditarRegistro(marca);
+                CategoriaDTO marca = mapper.MapearTipo2Tipo1(modelo);
+                logica.EditarRegistro(marca);
                 return RedirectToAction("Index");
             }
 
@@ -111,13 +108,13 @@ namespace TiendaVirtual.Controllers.Parametros
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_Categoria tb_Categoria = acceso.BuscarRegistro(id.Value);
-            if (tb_Categoria == null)
+            CategoriaDTO CategoriaDTO = logica.BuscarRegistro(id.Value);
+            if (CategoriaDTO == null)
             {
                 return HttpNotFound();
             }
             MapeadorCategoriaGUI mapper = new MapeadorCategoriaGUI();
-            ModeloCategoriaGUI modelo = mapper.MapearTipo1Tipo2(tb_Categoria);
+            ModeloCategoriaGUI modelo = mapper.MapearTipo1Tipo2(CategoriaDTO);
             return View(modelo);
         }
 
@@ -127,7 +124,7 @@ namespace TiendaVirtual.Controllers.Parametros
         public ActionResult DeleteConfirmed(int id)
         {
 
-            bool respuesta = acceso.BorrarRegistro(id);
+            bool respuesta = logica.BorrarRegistro(id);
             // si hay un registro encontrado
             if (respuesta)
             {
@@ -137,15 +134,15 @@ namespace TiendaVirtual.Controllers.Parametros
             else
             {
                 // rebuscar el id para volverlo a la vista
-                tb_Categoria tb_Categoria = acceso.BuscarRegistro(id);
-                if (tb_Categoria == null)
+                CategoriaDTO CategoriaDTO = logica.BuscarRegistro(id);
+                if (CategoriaDTO == null)
                 {
                     return HttpNotFound();
                 }
                 // mapear y mostrar el mensaje con el objeto a borrar
                 MapeadorCategoriaGUI mapper = new MapeadorCategoriaGUI();
                 ViewBag.Mensaje = Mensajes.MensajeErrorBorrar;
-                ModeloCategoriaGUI modelo = mapper.MapearTipo1Tipo2(tb_Categoria);
+                ModeloCategoriaGUI modelo = mapper.MapearTipo1Tipo2(CategoriaDTO);
                 // retornar la vista con su respecivo modelo anterior
                 return View(modelo);
             }

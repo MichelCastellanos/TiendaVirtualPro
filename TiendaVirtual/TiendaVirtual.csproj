@@ -313,9 +313,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AccesoDeDatos\AccesoDeDatos.csproj">
-      <Project>{5ec0b42f-f6db-48d5-b2a0-900a1fe65a30}</Project>
-      <Name>AccesoDeDatos</Name>
+    <ProjectReference Include="..\Logica\Logica.csproj">
+      <Project>{bc00da9e-ac29-4d2f-9610-be48018c9fc6}</Project>
+      <Name>Logica</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

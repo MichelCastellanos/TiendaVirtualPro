@@ -1,4 +1,6 @@
-﻿using AccesoDeDatos.modelos;
+﻿using AccesoDeDatos.DbModel;
+using AccesoDeDatos.Mapeadores.Parametros;
+using AccesoDeDatos.modelos;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -15,9 +17,9 @@ namespace AccesoDeDatos.Implementacion.Parametros
         /// </summary>
         /// <param name="filtro">filtro a aplicar</param>
         /// <returns></returns>
-        public IEnumerable <tb_Marca> ListarRegistros(String filtro,int PaginaActual, int numeroRegistroPagina, out int totalRegistros)
+        public IEnumerable <MarcaDbModel> ListarRegistros(String filtro,int PaginaActual, int numeroRegistroPagina, out int totalRegistros)
         {
-            var lista = new List<tb_Marca>();
+            var lista = new List<MarcaDbModel>();
             using (EllaYelDBEntities db = new EllaYelDBEntities())
             {
                 // pag 1 = 1-10
@@ -28,11 +30,12 @@ namespace AccesoDeDatos.Implementacion.Parametros
                 int registrosDescartados = (PaginaActual - 1) * numeroRegistroPagina;
                 /// peticion tipo mapeo
                 // lista = db.tb_Marca.Where(x => x.Nombre.Contains(filtro)).Skip(registrosDescartados).Take(numeroRegistroPagina).ToList();
-                lista = (from m in db.tb_Marca
+                var listaDatos = (from m in db.tb_Marca
                          where m.Nombre.Contains(filtro)
                          select m).ToList();
-                totalRegistros = lista.Count();
-                lista = lista.OrderBy(m => m.Id).Skip(registrosDescartados).Take(numeroRegistroPagina).ToList();
+                totalRegistros = listaDatos.Count();
+                listaDatos = listaDatos.OrderBy(m => m.Id).Skip(registrosDescartados).Take(numeroRegistroPagina).ToList();
+                lista = new MapeadorMarcaDatos().MapearTipo1Tipo2(listaDatos).ToList();
             }
             return lista;
         }
@@ -41,7 +44,7 @@ namespace AccesoDeDatos.Implementacion.Parametros
         /// </summary>
         /// <param name="registro">registro objeto a guardar</param>
         /// <returns>true si guardo y false cuando ya existe un registro igual o hay una excepcion</returns>
-        public bool GuardarRegistro(tb_Marca registro)
+        public bool GuardarRegistro(MarcaDbModel registro)
         {
             try
             {
@@ -52,7 +55,9 @@ namespace AccesoDeDatos.Implementacion.Parametros
                     {
                         return false;
                     }
-                    db.tb_Marca.Add(registro);
+                    MapeadorMarcaDatos mapeador = new MapeadorMarcaDatos();
+                    var reg = mapeador.MapearTipo2Tipo1(registro);
+                    db.tb_Marca.Add(reg);
                     db.SaveChanges();
                     return true;
                 }
@@ -66,12 +71,12 @@ namespace AccesoDeDatos.Implementacion.Parametros
         /// </summary>
         /// <param name="id">id del registro a buscar</param>
         /// <returns>objeto registro encontrado o null si lo encuentra</returns>
-        public tb_Marca BuscarRegistro(int id)
+        public MarcaDbModel BuscarRegistro(int id)
         {
             using (EllaYelDBEntities db = new EllaYelDBEntities())
             {
                 tb_Marca registro = db.tb_Marca.Find(id);
-                return registro;
+                return new MapeadorMarcaDatos().MapearTipo1Tipo2(registro);
             }
         }
         /// <summary>
@@ -79,7 +84,7 @@ namespace AccesoDeDatos.Implementacion.Parametros
         /// </summary>
         /// <param name="registro">registro objeto a editar</param>
         /// <returns>true si es editado y false cuando no hay registro igual o hay una excepcion</returns>
-        public bool EditarRegistro(tb_Marca registro)
+        public bool EditarRegistro(MarcaDbModel registro)
         {
             try
             {
@@ -90,7 +95,9 @@ namespace AccesoDeDatos.Implementacion.Parametros
                     {
                         return false;
                     }
-                    db.Entry(registro).State = EntityState.Modified;
+                    MapeadorMarcaDatos mapeador = new MapeadorMarcaDatos();
+                    var reg = mapeador.MapearTipo2Tipo1(registro);
+                    db.Entry(reg).State = EntityState.Modified;
                     db.SaveChanges();
                     return true;
                 }

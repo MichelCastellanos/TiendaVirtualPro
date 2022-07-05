@@ -1,9 +1,6 @@
-﻿using AccesoDeDatos.modelos;
-using System.Collections.Generic;
-using TiendaVirtual.Models.ModelosGUI.Parametros;
-
-namespace TiendaVirtual.Mapeadores.Parametros
+﻿namespace TiendaVirtual.Mapeadores.Parametros
 {
+    /*
     public class MapeadorProveedorGUI : MapeadorBaseGUI<tb_Proveedor, ModeloProveedorGUI>
     {
         public override ModeloProveedorGUI MapearTipo1Tipo2(tb_Proveedor entrada)
@@ -48,5 +45,5 @@ namespace TiendaVirtual.Mapeadores.Parametros
                 yield return MapearTipo2Tipo1(item);
             }
         }
-    }
+    */
 }

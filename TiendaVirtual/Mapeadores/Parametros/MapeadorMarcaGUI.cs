@@ -1,12 +1,13 @@
 ﻿using AccesoDeDatos.modelos;
+using Logica.DTO.Parametros;
 using System.Collections.Generic;
 using TiendaVirtual.Models.ModelosGUI.Parametros;
 
 namespace TiendaVirtual.Mapeadores.Parametros
 {
-    public class MapeadorMarcaGUI : MapeadorBaseGUI<tb_Marca, ModeloMarcaGUI>
+    public class MapeadorMarcaGUI : MapeadorBaseGUI<MarcaDTO, ModeloMarcaGUI>
     {
-        public override ModeloMarcaGUI MapearTipo1Tipo2(tb_Marca entrada)
+        public override ModeloMarcaGUI MapearTipo1Tipo2(MarcaDTO entrada)
         {
             return new ModeloMarcaGUI()
             {
@@ -15,7 +16,7 @@ namespace TiendaVirtual.Mapeadores.Parametros
             };
         }
 
-        public override IEnumerable<ModeloMarcaGUI> MapearTipo1Tipo2(IEnumerable<tb_Marca> entrada)
+        public override IEnumerable<ModeloMarcaGUI> MapearTipo1Tipo2(IEnumerable<MarcaDTO> entrada)
         {
             foreach(var item in entrada)
             {
@@ -24,16 +25,16 @@ namespace TiendaVirtual.Mapeadores.Parametros
             
         }
 
-        public override tb_Marca MapearTipo2Tipo1(ModeloMarcaGUI entrada)
+        public override MarcaDTO MapearTipo2Tipo1(ModeloMarcaGUI entrada)
         {
-            return new tb_Marca()
+            return new MarcaDTO()
             {
                 Id = entrada.Id,
                 Nombre = entrada.Nombre
             };
         }
 
-        public override IEnumerable<tb_Marca> MapearTipo2Tipo1(IEnumerable<ModeloMarcaGUI> entrada)
+        public override IEnumerable<MarcaDTO> MapearTipo2Tipo1(IEnumerable<ModeloMarcaGUI> entrada)
         {
             foreach (var item in entrada)
             {

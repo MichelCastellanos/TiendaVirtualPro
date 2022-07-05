@@ -1,4 +1,6 @@
-﻿using AccesoDeDatos.modelos;
+﻿using AccesoDeDatos.DbModel.Parametros;
+using AccesoDeDatos.Mapeadores.Parametros;
+using AccesoDeDatos.modelos;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -15,22 +17,23 @@ namespace AccesoDeDatos.Implementacion.Parametros
         /// </summary>
         /// <param name="filtro">filtro a aplicar</param>
         /// <returns></returns>
-        public IEnumerable<tb_Proveedor> ListarRegistros(string filtro)
+        public IEnumerable<ProveedorDbModel> ListarRegistros(string filtro)
         {
-            var lista = new List<tb_Proveedor>();
+            var lista = new List<ProveedorDbModel>();
             using (EllaYelDBEntities db = new EllaYelDBEntities())
             {
                 if (String.IsNullOrWhiteSpace(filtro))
                 {
-                    lista = db.tb_Proveedor.ToList();
+                    IEnumerable<tb_Proveedor> listaDatos = db.tb_Proveedor.ToList();
+                    return new MapeadorProveedorDatos().MapearTipo1Tipo2(listaDatos);
                 }
                 else
                 {
                     /// peticion tipo mapeo
-                    lista = db.tb_Proveedor.Where(x => x.RazonSocial.ToUpper().Contains(filtro.ToUpper())).ToList();
+                    IEnumerable<tb_Proveedor> listaDatos = db.tb_Proveedor.Where(x => x.RazonSocial.ToUpper().Contains(filtro.ToUpper())).ToList();
+                    return new MapeadorProveedorDatos().MapearTipo1Tipo2(listaDatos);
                 }
             }
-            return lista;
         }
         /// <summary>
         /// metodo para guardar registro

@@ -51,10 +51,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="DbModel\Parametros\CategoriaDbModel.cs" />
+    <Compile Include="DbModel\Parametros\MarcaDbModel.cs" />
+    <Compile Include="DbModel\Parametros\ProveedorDbModel.cs" />
     <Compile Include="Implementacion\Parametros\ImplCategoriaDatos.cs" />
     <Compile Include="Implementacion\Parametros\ImplMarcaDatos.cs" />
     <Compile Include="Implementacion\Parametros\ImplProveedorDatos.cs" />
     <Compile Include="Implementacion\Zapatos\ImplZapatoDatos.cs" />
+    <Compile Include="Mapeadores\MapeadorBaseDatos.cs" />
+    <Compile Include="Mapeadores\Parametros\MapeadorCategoriaDatos.cs" />
+    <Compile Include="Mapeadores\Parametros\MapeadorFotoDatos.cs" />
+    <Compile Include="Mapeadores\Parametros\MapeadorMarcaDatos.cs" />
+    <Compile Include="Mapeadores\Parametros\MapeadorProveedorDatos.cs" />
     <Compile Include="modelos\tb_Categoria.cs">
       <DependentUpon>TiendaVirtualModel.tt</DependentUpon>
     </Compile>

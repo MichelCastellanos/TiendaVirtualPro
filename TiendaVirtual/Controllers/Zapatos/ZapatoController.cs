@@ -12,6 +12,7 @@ namespace TiendaVirtual.Controllers.Zapatos
 {
     public class ZapatoController : Controller
     {
+        /*
         private EllaYelDBEntities db = new EllaYelDBEntities();
 
         // GET: Zapato
@@ -136,5 +137,6 @@ namespace TiendaVirtual.Controllers.Zapatos
             }
             base.Dispose(disposing);
         }
+        */
     }
 }
