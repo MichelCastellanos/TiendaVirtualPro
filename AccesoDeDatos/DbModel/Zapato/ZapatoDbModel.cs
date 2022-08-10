@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace TiendaVirtual.Models.ModelosGUI.Zapato
+namespace AccesoDeDatos.DbModel.Zapato
 {
-    public class ModeloZapatoGUI
+    public class ZapatoDbModel
     {
         private int id;
 
@@ -104,9 +104,9 @@ namespace TiendaVirtual.Models.ModelosGUI.Zapato
             set { nombreCategoria = value; }
         }
 
-        private string  nombreMarca;
+        private string nombreMarca;
 
-        public string  NombreMarca
+        public string NombreMarca
         {
             get { return nombreMarca; }
             set { nombreMarca = value; }
@@ -120,5 +120,6 @@ namespace TiendaVirtual.Models.ModelosGUI.Zapato
             set { razonSocialProveedor = value; }
         }
 
+       
     }
 }

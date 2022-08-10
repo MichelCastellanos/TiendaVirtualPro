@@ -1,14 +1,22 @@
-﻿using System.Web.Mvc;
+﻿using Logica.DTO.Parametros;
+using Logica.Implementacion.Parametros;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Web.Mvc;
+using TiendaVirtual.Helpers;
+using TiendaVirtual.Mapeadores.Parametros;
+using TiendaVirtual.Models.ModelosGUI.Parametros;
 
 namespace TiendaVirtual.Controllers.Parametros
 {
     public class ProveedorController : Controller
     {
-        /*
+        
         private ImplProveedorLogica logica = new ImplProveedorLogica();
 
         // GET: Marca
-        public ActionResult Index(String filtro = "")
+        public ActionResult Index(string filtro = "")
         {
             IEnumerable<ProveedorDTO> ListaDatos = logica.ListarRegistros(filtro).ToList();
             MapeadorProveedorGUI mapper = new MapeadorProveedorGUI();
@@ -139,6 +147,6 @@ namespace TiendaVirtual.Controllers.Parametros
                 return View(modelo);
             }
         }
-        */
+        
     }
 }

@@ -1,142 +1,242 @@
-﻿using System;
+﻿using Logica.DTO.Zapato;
+using Logica.Implementacion.Zapato;
+using PagedList;
+using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using AccesoDeDatos.modelos;
+using TiendaVirtual.Helpers;
+using TiendaVirtual.Mapeadores.Parametros;
+using TiendaVirtual.Mapeadores.Zapato;
+using TiendaVirtual.Models.ModelosGUI.Parametros;
+using TiendaVirtual.Models.ModelosGUI.Zapato;
 
 namespace TiendaVirtual.Controllers.Zapatos
 {
     public class ZapatoController : Controller
     {
-        /*
-        private EllaYelDBEntities db = new EllaYelDBEntities();
 
-        // GET: Zapato
-        public ActionResult Index()
+        private IEnumerable<SelectListItem> listadoCategorias;
+        private IEnumerable<SelectListItem> listadoMarcas;
+        private IEnumerable<SelectListItem> listadoProveedores;
+        private ImplZapatoLogica logica = new ImplZapatoLogica();
+
+        // GET: Marca
+        public ActionResult Index(int? page, String filtro = "")
         {
-            var tb_Zapato = db.tb_Zapato.Include(t => t.tb_Categoria).Include(t => t.tb_Marca).Include(t => t.tb_Proveedor);
-            return View(tb_Zapato.ToList());
+
+            int numeroPag = page ?? 1;
+            int totalRegistros;
+            int numeroRegistrosPagina = DatosGenerales.RegistrosPorPagina;
+            IEnumerable<ZapatoDTO> ListaDatos = logica.ListarRegistros(filtro, numeroPag, numeroRegistrosPagina, out totalRegistros).ToList();
+            MapeadorZapatoGUI mapper = new MapeadorZapatoGUI();
+            IEnumerable<ModeloZapatoGUI> ListaGUI = mapper.MapearTipo1Tipo2(ListaDatos);
+            //var registrosPagina = ListaGUI.ToPagedList(numeroPag, 25);
+            var listaPagina = new StaticPagedList<ModeloZapatoGUI>(ListaGUI, numeroPag, numeroRegistrosPagina, totalRegistros);
+            return View(listaPagina);
         }
 
-        // GET: Zapato/Details/5
+        // GET: Marca/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_Zapato tb_Zapato = db.tb_Zapato.Find(id);
-            if (tb_Zapato == null)
+            ZapatoDTO ZapatoDTO = logica.BuscarRegistro(id.Value);
+            if (ZapatoDTO == null)
             {
                 return HttpNotFound();
             }
-            return View(tb_Zapato);
+            MapeadorZapatoGUI mapper = new MapeadorZapatoGUI();
+            ModeloZapatoGUI modelo = mapper.MapearTipo1Tipo2(ZapatoDTO);
+            return View(modelo);
         }
 
-        // GET: Zapato/Create
+        // GET: Marca/Create
         public ActionResult Create()
         {
-            ViewBag.Id_Categoria = new SelectList(db.tb_Categoria, "Id", "Nombre");
-            ViewBag.Id_Marca = new SelectList(db.tb_Marca, "Id", "Nombre");
-            ViewBag.Id_Proveedor = new SelectList(db.tb_Proveedor, "Id", "RazonSocial");
-            return View();
+            Llenar();
+            ModeloZapatoListadoGUI zapPro = new ModeloZapatoListadoGUI()
+            {
+                ListadoCategoria = listadoCategorias,
+                ListadoProveedor = listadoProveedores,
+                ListadoMarca = listadoMarcas
+            };
+            return View(zapPro);
         }
 
-        // POST: Zapato/Create
+        // POST: Marca/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Color,Modelo,Precio,Descuento,Talla,Estado,Genero,Id_Proveedor,Id_Marca,Id_Categoria")] tb_Zapato tb_Zapato)
+        public ActionResult Create(ModeloZapatoListadoGUI modelo)
         {
+            ModeloZapatoGUI zapato = new ModeloZapatoGUI()
+            {
+                Id = modelo.Zapato.Id,
+                Talla = modelo.Zapato.Talla,
+                Color = modelo.Zapato.Color,
+                Modelo = modelo.Zapato.Modelo,
+                Precio = modelo.Zapato.Precio,
+                Descuento = modelo.Zapato.Descuento,
+                Estado = modelo.Zapato.Estado,
+                Genero = modelo.Zapato.Genero,
+                Id_Categoria = modelo.Zapato.Id_Categoria,
+                Id_Proveedor = modelo.Zapato.Id_Proveedor,
+                Id_Marca = modelo.Zapato.Id_Marca
+            };
             if (ModelState.IsValid)
             {
-                db.tb_Zapato.Add(tb_Zapato);
-                db.SaveChanges();
+                MapeadorZapatoGUI mapper = new MapeadorZapatoGUI();
+                ZapatoDTO zapatoMapeado = mapper.MapearTipo2Tipo1(zapato);
+                logica.GuardarRegistro(zapatoMapeado);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Id_Categoria = new SelectList(db.tb_Categoria, "Id", "Nombre", tb_Zapato.Id_Categoria);
-            ViewBag.Id_Marca = new SelectList(db.tb_Marca, "Id", "Nombre", tb_Zapato.Id_Marca);
-            ViewBag.Id_Proveedor = new SelectList(db.tb_Proveedor, "Id", "RazonSocial", tb_Zapato.Id_Proveedor);
-            return View(tb_Zapato);
+            return View(zapato);
         }
 
-        // GET: Zapato/Edit/5
+        // GET: Marca/Edit/5
         public ActionResult Edit(int? id)
         {
+            Llenar();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_Zapato tb_Zapato = db.tb_Zapato.Find(id);
-            if (tb_Zapato == null)
+            ZapatoDTO ZapatoDTO = logica.BuscarRegistro(id.Value);
+            if (ZapatoDTO == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Id_Categoria = new SelectList(db.tb_Categoria, "Id", "Nombre", tb_Zapato.Id_Categoria);
-            ViewBag.Id_Marca = new SelectList(db.tb_Marca, "Id", "Nombre", tb_Zapato.Id_Marca);
-            ViewBag.Id_Proveedor = new SelectList(db.tb_Proveedor, "Id", "RazonSocial", tb_Zapato.Id_Proveedor);
-            return View(tb_Zapato);
+            MapeadorZapatoGUI mapper = new MapeadorZapatoGUI();
+            ModeloZapatoGUI modelo = mapper.MapearTipo1Tipo2(ZapatoDTO);
+            ModeloZapatoListadoGUI modeloCompuesto = new ModeloZapatoListadoGUI();
+            modeloCompuesto.Zapato = modelo;
+            modeloCompuesto.ListadoCategoria = listadoCategorias;
+            modeloCompuesto.ListadoMarca = listadoMarcas;
+            modeloCompuesto.ListadoProveedor = listadoProveedores;
+            return View(modeloCompuesto);
         }
 
-        // POST: Zapato/Edit/5
+        // POST: Marca/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Color,Modelo,Precio,Descuento,Talla,Estado,Genero,Id_Proveedor,Id_Marca,Id_Categoria")] tb_Zapato tb_Zapato)
+        public ActionResult Edit(ModeloZapatoListadoGUI modelo)
         {
+            ModeloZapatoGUI zapato = new ModeloZapatoGUI()
+            {
+                Id = modelo.Zapato.Id,
+                Talla = modelo.Zapato.Talla,
+                Color = modelo.Zapato.Color,
+                Modelo = modelo.Zapato.Modelo,
+                Precio = modelo.Zapato.Precio,
+                Descuento = modelo.Zapato.Descuento,
+                Estado = modelo.Zapato.Estado,
+                Genero = modelo.Zapato.Genero,
+                Id_Categoria = modelo.Zapato.Id_Categoria,
+                Id_Proveedor = modelo.Zapato.Id_Proveedor,
+                Id_Marca = modelo.Zapato.Id_Marca
+            };
             if (ModelState.IsValid)
             {
-                db.Entry(tb_Zapato).State = EntityState.Modified;
-                db.SaveChanges();
+                MapeadorZapatoGUI mapper = new MapeadorZapatoGUI();
+                ZapatoDTO zapatoMapeado = mapper.MapearTipo2Tipo1(zapato);
+                logica.EditarRegistro(zapatoMapeado);
                 return RedirectToAction("Index");
             }
-            ViewBag.Id_Categoria = new SelectList(db.tb_Categoria, "Id", "Nombre", tb_Zapato.Id_Categoria);
-            ViewBag.Id_Marca = new SelectList(db.tb_Marca, "Id", "Nombre", tb_Zapato.Id_Marca);
-            ViewBag.Id_Proveedor = new SelectList(db.tb_Proveedor, "Id", "RazonSocial", tb_Zapato.Id_Proveedor);
-            return View(tb_Zapato);
+
+            return View(zapato);
         }
 
-        // GET: Zapato/Delete/5
+        // GET: Marca/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tb_Zapato tb_Zapato = db.tb_Zapato.Find(id);
-            if (tb_Zapato == null)
+            ZapatoDTO ZapatoDTO = logica.BuscarRegistro(id.Value);
+            if (ZapatoDTO == null)
             {
                 return HttpNotFound();
             }
-            return View(tb_Zapato);
+            MapeadorZapatoGUI mapper = new MapeadorZapatoGUI();
+            ModeloZapatoGUI modelo = mapper.MapearTipo1Tipo2(ZapatoDTO);
+            return View(modelo);
         }
 
-        // POST: Zapato/Delete/5
+        // POST: Marca/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            tb_Zapato tb_Zapato = db.tb_Zapato.Find(id);
-            db.tb_Zapato.Remove(tb_Zapato);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+
+            bool respuesta = logica.BorrarRegistro(id);
+            // si hay un registro encontrado
+            if (respuesta)
+            {
+                return RedirectToAction("Index");
+            }
+            // FALSE : si no hay registro encontrado
+            else
+            {
+                // rebuscar el id para volverlo a la vista
+                ZapatoDTO ZapatoDTO = logica.BuscarRegistro(id);
+                if (ZapatoDTO == null)
+                {
+                    return HttpNotFound();
+                }
+                // mapear y mostrar el mensaje con el objeto a borrar
+                MapeadorZapatoGUI mapper = new MapeadorZapatoGUI();
+                ViewBag.Mensaje = Mensajes.MensajeErrorBorrar;
+                ModeloZapatoGUI modelo = mapper.MapearTipo1Tipo2(ZapatoDTO);
+                // retornar la vista con su respecivo modelo anterior
+                return View(modelo);
+            }
         }
 
-        protected override void Dispose(bool disposing)
+        public List<ModeloMarcaGUI> ListadoMarca()
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
+            var lista = this.logica.ListadoMarca().ToList();
+            MapeadorMarcaGUI mapeador = new MapeadorMarcaGUI();
+            var listOne = mapeador.MapearTipo1Tipo2(lista).ToList();
+            return listOne;
         }
-        */
+
+
+
+        public List<ModeloCategoriaGUI> ListadoCategoria()
+        {
+            var lista = this.logica.ListadoCategoria().ToList();
+            MapeadorCategoriaGUI mapeador = new MapeadorCategoriaGUI();
+            var listOne = mapeador.MapearTipo1Tipo2(lista).ToList();
+            return listOne;
+        }
+
+        public List<ModeloProveedorGUI> ListadoProveedor()
+        {
+
+            var lista = this.logica.ListadoProveedor().ToList();
+            MapeadorProveedorGUI mapeador = new MapeadorProveedorGUI();
+            var listOne = mapeador.MapearTipo1Tipo2(lista).ToList();
+            return listOne;
+        }
+
+
+        public void Llenar()
+        {
+            listadoCategorias = ListadoCategoria().ToList().Select(p => new SelectListItem
+            { Value = p.Id.ToString(), Text = p.Nombre }); ;
+            listadoMarcas = ListadoMarca().ToList().Select(p => new SelectListItem
+            { Value = p.Id.ToString(), Text = p.Nombre }); ;
+            listadoProveedores = ListadoProveedor().ToList().Select(p => new SelectListItem
+            { Value = p.Id.ToString(), Text = p.RazonSocial }); ;
+        }
     }
 }

@@ -1,8 +1,10 @@
-﻿@model IEnumerable<AccesoDeDatos.modelos.tb_Zapato>
+﻿@model IEnumerable<TiendaVirtual.Models.ModelosGUI.Zapato.ModeloZapatoGUI>
 
 @{
     ViewBag.Title = "Index";
 }
+@using PagedList.Mvc;
+@using PagedList; <!--import this so we can cast our list to IPagedList (only necessary because ViewBag is dynamic)--->
 
 <h2>Index</h2>
 
@@ -33,55 +35,57 @@
             @Html.DisplayNameFor(model => model.Genero)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.tb_Categoria.Nombre)
+            @Html.DisplayNameFor(model => model.NombreMarca)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.tb_Marca.Nombre)
+            @Html.DisplayNameFor(model => model.NombreCategoria)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.tb_Proveedor.RazonSocial)
+            @Html.DisplayNameFor(model => model.RazonSocialProveedor)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Color)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Modelo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Precio)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Descuento)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Talla)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Estado)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Genero)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.tb_Categoria.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.tb_Marca.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.tb_Proveedor.RazonSocial)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Color)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Modelo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descuento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Talla)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genero)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreMarca)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreCategoria)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RazonSocialProveedor)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))

@@ -44,14 +44,17 @@
     <Compile Include="DTO\Parametros\CategoriaDTO.cs" />
     <Compile Include="DTO\Parametros\MarcaDTO.cs" />
     <Compile Include="DTO\Parametros\ProveedorDTO.cs" />
+    <Compile Include="DTO\Zapato\ZapatoDTO.cs" />
     <Compile Include="Implementacion\Parametros\ImplCategoriaLogica.cs" />
     <Compile Include="Implementacion\Parametros\ImplProveedorLogica.cs" />
     <Compile Include="Implementacion\Parametros\ImplMarcaLogica.cs" />
+    <Compile Include="Implementacion\Zapato\ImplZapatoLogica.cs" />
     <Compile Include="Mapeadores\MapeadorBaseLogica.cs" />
     <Compile Include="Mapeadores\Parametros\MapeadorCategoriaLogica.cs" />
     <Compile Include="Mapeadores\Parametros\MapeadorFotoLogica.cs" />
     <Compile Include="Mapeadores\Parametros\MapeadorMarcaLogica.cs" />
     <Compile Include="Mapeadores\Parametros\MapeadorProveedorLogica.cs" />
+    <Compile Include="Mapeadores\Zapato\MapeadorZapatoLogica.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -62,10 +65,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DTO\Cliente\" />
-    <Folder Include="DTO\Zapato\" />
     <Folder Include="Implementacion\Cliente\" />
     <Folder Include="Implementacion\Vendedor\" />
-    <Folder Include="Implementacion\Zapato\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

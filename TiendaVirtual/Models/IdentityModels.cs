@@ -29,5 +29,7 @@ namespace AccesoDeDatos.modelos
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<TiendaVirtual.Models.ModelosGUI.Zapato.ModeloZapatoGUI> ModeloZapatoGUIs { get; set; }
     }
 }

@@ -52,6 +52,5 @@ namespace TiendaVirtual.Models.ModelosGUI.Parametros
             get { return email; }
             set { email = value; }
         }
-
     }
 }

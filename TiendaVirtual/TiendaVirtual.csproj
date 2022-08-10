@@ -188,17 +188,20 @@
     </Compile>
     <Compile Include="Helpers\DatosGenerales.cs" />
     <Compile Include="Helpers\Mensajes.cs" />
+    <Compile Include="Mapeadores\MapeadorBaseListGUI .cs" />
     <Compile Include="Mapeadores\MapeadorBaseGUI.cs" />
     <Compile Include="Mapeadores\Parametros\MapeadorCategoriaGUI.cs" />
     <Compile Include="Mapeadores\Parametros\MapeadorFotoGUI.cs" />
     <Compile Include="Mapeadores\Parametros\MapeadorProveedorGUI.cs" />
     <Compile Include="Mapeadores\Parametros\MapeadorMarcaGUI.cs" />
+    <Compile Include="Mapeadores\Zapato\MapeadorZapatoGUI.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ModelosGUI\Parametros\ModeloProveedorGUI.cs" />
     <Compile Include="Models\ModelosGUI\Parametros\ModeloCategoriaGUI.cs" />
     <Compile Include="Models\ModelosGUI\Parametros\ModeloMarcaGUI.cs" />
+    <Compile Include="Models\ModelosGUI\Zapato\ModeloZapatoListadoGUI.cs" />
     <Compile Include="Models\ModelosGUI\Zapato\ModeloZapatoGUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -280,7 +283,6 @@
     <Content Include="Views\Cliente\Details.cshtml" />
     <Content Include="Views\Cliente\Edit.cshtml" />
     <Content Include="Views\Cliente\Index.cshtml" />
-    <Content Include="Views\Zapato\Create.cshtml" />
     <Content Include="Views\Zapato\Delete.cshtml" />
     <Content Include="Views\Zapato\Details.cshtml" />
     <Content Include="Views\Zapato\Edit.cshtml" />
@@ -288,6 +290,7 @@
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Shared\_Navbar.cshtml" />
     <Content Include="Views\Shared\_Mensajes.cshtml" />
+    <Content Include="Views\Zapato\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,4 +1,4 @@
-﻿@model AccesoDeDatos.modelos.tb_Zapato
+﻿@model TiendaVirtual.Models.ModelosGUI.Zapato.ModeloZapatoGUI
 
 @{
     ViewBag.Title = "Details";
@@ -67,27 +67,27 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.tb_Categoria.Nombre)
+            @Html.DisplayNameFor(model => model.Id_Categoria)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.tb_Categoria.Nombre)
+            @Html.DisplayFor(model => model.Id_Marca)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.tb_Marca.Nombre)
+            @Html.DisplayNameFor(model => model.Id_Proveedor)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.tb_Marca.Nombre)
+            @Html.DisplayFor(model => model.Id_Categoria)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.tb_Proveedor.RazonSocial)
+            @Html.DisplayNameFor(model => model.Id_Marca)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.tb_Proveedor.RazonSocial)
+            @Html.DisplayFor(model => model.Id_Proveedor)
         </dd>
 
     </dl>
