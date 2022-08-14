@@ -13,26 +13,26 @@ namespace Logica.Implementacion.Parametros
             {
                 this.acceso = new ImplCategoriaDatos();
             }
-            /// <summary>
-            /// listar registros de marcas por la capa logica de negocio
-            /// </summary>
-            /// <param name="filtro">filtro a buscar</param>
-            /// <param name="numeroPag">pagina actual</param>
-            /// <param name="numeroRegistrosPagina">cantidad de registros a mostrar por pagina</param>
-            /// <param name="totalRegistros">conteo de los registros totales en la base de datos</param>
-            /// <returns></returns>
-            public IEnumerable<CategoriaDTO> ListarRegistros(string filtro)
-            {
-                var listado = this.acceso.ListarRegistros(filtro);
-                MapeadorCategoriaLogica mapeador = new MapeadorCategoriaLogica();
-                return mapeador.MapearTipo1Tipo2(listado);
-            }
-            /// <summary>
-            /// buscar registro por la capa de negocio
-            /// </summary>
-            /// <param name="id">id necesario para la busqueda</param>
-            /// <returns>un objeto tipo CategoriaDTO</returns>
-            public CategoriaDTO BuscarRegistro(int id)
+        /// <summary>
+        /// listar registros de marcas por la capa logica de negocio
+        /// </summary>
+        /// <param name="filtro">filtro a buscar</param>
+        /// <param name="numeroPag">pagina actual</param>
+        /// <param name="numeroRegistrosPagina">cantidad de registros a mostrar por pagina</param>
+        /// <param name="totalRegistros">conteo de los registros totales en la base de datos</param>
+        /// <returns></returns>
+        public IEnumerable<CategoriaDTO> ListarRegistros(string filtro, int numeroPag, int numeroRegistrosPagina, out int totalRegistros)
+        {
+            var listado = this.acceso.ListarRegistros(filtro, numeroPag, numeroRegistrosPagina, out totalRegistros);
+            MapeadorCategoriaLogica mapeador = new MapeadorCategoriaLogica();
+            return mapeador.MapearTipo1Tipo2(listado);
+        }
+        /// <summary>
+        /// buscar registro por la capa de negocio
+        /// </summary>
+        /// <param name="id">id necesario para la busqueda</param>
+        /// <returns>un objeto tipo CategoriaDTO</returns>
+        public CategoriaDTO BuscarRegistro(int id)
             {
                 var listado = this.acceso.BuscarRegistro(id);
                 MapeadorCategoriaLogica mapeador = new MapeadorCategoriaLogica();

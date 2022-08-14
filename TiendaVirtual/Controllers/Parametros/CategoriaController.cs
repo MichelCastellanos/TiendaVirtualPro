@@ -1,5 +1,6 @@
 ﻿using Logica.DTO.Parametros;
 using Logica.Implementacion.Parametros;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,13 +17,17 @@ namespace TiendaVirtual.Controllers.Parametros
         private ImplCategoriaLogica logica = new ImplCategoriaLogica();
 
         // GET: Marca
-        public ActionResult Index(String filtro = "")
+        public ActionResult Index(int? page, String filtro = "")
         {
-            IEnumerable<CategoriaDTO> ListaDatos = logica.ListarRegistros(filtro).ToList();
+            int numeroPag = page ?? 1;
+            int totalRegistros;
+            int numeroRegistrosPagina = DatosGenerales.RegistrosPorPagina;
+            IEnumerable<CategoriaDTO> ListaDatos = logica.ListarRegistros(filtro, numeroPag, numeroRegistrosPagina, out totalRegistros).ToList();
             MapeadorCategoriaGUI mapper = new MapeadorCategoriaGUI();
             IEnumerable<ModeloCategoriaGUI> ListaGUI = mapper.MapearTipo1Tipo2(ListaDatos);
-            return View(ListaGUI);
-
+            //var registrosPagina = ListaGUI.ToPagedList(numeroPag, 25);
+            var listaPagina = new StaticPagedList<ModeloCategoriaGUI>(ListaGUI, numeroPag, numeroRegistrosPagina, totalRegistros);
+            return View(listaPagina);
         }
 
         // GET: Marca/Details/5

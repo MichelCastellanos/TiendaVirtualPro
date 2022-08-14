@@ -3,8 +3,10 @@ using Logica.Implementacion.Zapato;
 using PagedList;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using TiendaVirtual.Helpers;
 using TiendaVirtual.Mapeadores.Parametros;
@@ -237,6 +239,38 @@ namespace TiendaVirtual.Controllers.Zapatos
             { Value = p.Id.ToString(), Text = p.Nombre }); ;
             listadoProveedores = ListadoProveedor().ToList().Select(p => new SelectListItem
             { Value = p.Id.ToString(), Text = p.RazonSocial }); ;
+        }
+
+        [HttpGet]
+
+        public ActionResult UploadFile()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult UploadFile(HttpPostedFileBase archivo)
+        {
+            try
+            {
+                if (archivo.ContentLength > 0)
+                {
+                    DateTime ahora = DateTime.Now;
+                    string fecha_nombre = String.Format("{0}_{1}_{2}_{3}_{4}_{5}_{6}", ahora.Day, ahora.Month, ahora.Year, ahora.Hour, ahora.Minute, ahora.Second, ahora.Millisecond);
+                    string NombreArchivo = String.Concat(fecha_nombre, "_", Path.GetFileName(archivo.FileName));
+                    string rutaArchivo = Path.Combine(Server.MapPath("~/FilesUpload/FotosZapatos"), NombreArchivo);
+                    archivo.SaveAs(rutaArchivo);
+                    ViewBag.UploadFileMessage = "Archivo cargado correctamente";
+                    return View();
+                }
+                ViewBag.UploadFileMessage = "Por favor agregue al menos un archivo a cargar.";
+                return View();
+            }
+                catch (Exception e)
+            {
+                ViewBag.UploadFileMessage = "Error al cargar el archivo.";
+                return View();
+            }
         }
     }
 }

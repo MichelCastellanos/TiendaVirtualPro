@@ -17,8 +17,7 @@ namespace TiendaVirtual.Models.ModelosGUI.Parametros
         }
         private string razonSocial;
 
-        [Required]
-        [MinLength(3)]
+       
         public string RazonSocial
         {
             get { return razonSocial; }

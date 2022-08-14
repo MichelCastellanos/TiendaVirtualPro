@@ -25,9 +25,9 @@ namespace Logica.Implementacion.Parametros
         /// <param name="numeroRegistrosPagina">cantidad de registros a mostrar por pagina</param>
         /// <param name="totalRegistros">conteo de los registros totales en la base de datos</param>
         /// <returns></returns>
-        public IEnumerable<ProveedorDTO> ListarRegistros(string filtro)
+        public IEnumerable<ProveedorDTO> ListarRegistros(string filtro, int numeroPag, int numeroRegistrosPagina, out int totalRegistros)
         {
-            var listado = this.acceso.ListarRegistros(filtro);
+            var listado = this.acceso.ListarRegistros(filtro, numeroPag, numeroRegistrosPagina, out totalRegistros);
             MapeadorProveedorLogica mapeador = new MapeadorProveedorLogica();
             return mapeador.MapearTipo1Tipo2(listado);
         }

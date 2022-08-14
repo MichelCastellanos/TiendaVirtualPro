@@ -1,5 +1,6 @@
 ﻿using Logica.DTO.Parametros;
 using Logica.Implementacion.Parametros;
+using PagedList;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -16,13 +17,17 @@ namespace TiendaVirtual.Controllers.Parametros
         private ImplProveedorLogica logica = new ImplProveedorLogica();
 
         // GET: Marca
-        public ActionResult Index(string filtro = "")
+        public ActionResult Index(int? page, string filtro = "")
         {
-            IEnumerable<ProveedorDTO> ListaDatos = logica.ListarRegistros(filtro).ToList();
+            int numeroPag = page ?? 1;
+            int totalRegistros;
+            int numeroRegistrosPagina = DatosGenerales.RegistrosPorPagina;
+            IEnumerable<ProveedorDTO> ListaDatos = logica.ListarRegistros(filtro, numeroPag, numeroRegistrosPagina, out totalRegistros).ToList();
             MapeadorProveedorGUI mapper = new MapeadorProveedorGUI();
             IEnumerable<ModeloProveedorGUI> ListaGUI = mapper.MapearTipo1Tipo2(ListaDatos);
-            return View(ListaGUI);
-
+            //var registrosPagina = ListaGUI.ToPagedList(numeroPag, 25);
+            var listaPagina = new StaticPagedList<ModeloProveedorGUI>(ListaGUI, numeroPag, numeroRegistrosPagina, totalRegistros);
+            return View(listaPagina);
         }
 
         // GET: Marca/Details/5
@@ -53,7 +58,7 @@ namespace TiendaVirtual.Controllers.Parametros
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nombre")] ModeloProveedorGUI modelo)
+        public ActionResult Create( ModeloProveedorGUI modelo)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +93,7 @@ namespace TiendaVirtual.Controllers.Parametros
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Nombre")] ModeloProveedorGUI modelo)
+        public ActionResult Edit( ModeloProveedorGUI modelo)
         {
             if (ModelState.IsValid)
             {
