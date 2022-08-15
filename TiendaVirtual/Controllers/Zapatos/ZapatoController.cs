@@ -249,17 +249,26 @@ namespace TiendaVirtual.Controllers.Zapatos
         }
 
         [HttpPost]
-        public ActionResult UploadFile(HttpPostedFileBase archivo)
+        public ActionResult UploadFile(ModeloCargarImagenZapatoGUI modelo)
         {
             try
             {
-                if (archivo.ContentLength > 0)
+                if (modelo.Archivo.ContentLength > 0)
                 {
                     DateTime ahora = DateTime.Now;
                     string fecha_nombre = String.Format("{0}_{1}_{2}_{3}_{4}_{5}_{6}", ahora.Day, ahora.Month, ahora.Year, ahora.Hour, ahora.Minute, ahora.Second, ahora.Millisecond);
-                    string NombreArchivo = String.Concat(fecha_nombre, "_", Path.GetFileName(archivo.FileName));
-                    string rutaArchivo = Path.Combine(Server.MapPath("~/FilesUpload/FotosZapatos"), NombreArchivo);
-                    archivo.SaveAs(rutaArchivo);
+                    string NombreArchivo = String.Concat(fecha_nombre, "_", Path.GetFileName(modelo.Archivo.FileName));
+                    string RutaCarpeta = DatosGenerales.RutaCarpetaFotos;
+                    string rutaArchivo = Path.Combine(Server.MapPath(RutaCarpeta), NombreArchivo);
+                    FotoZapatoDTO fotoDTO = new FotoZapatoDTO()
+                    {
+                        
+                        NombreFoto=NombreArchivo,
+                        Id_Zapato=modelo.Id
+                        
+                    };
+                    logica.GuardarNombreFotoZapato(fotoDTO);
+                    modelo.Archivo.SaveAs(rutaArchivo);
                     ViewBag.UploadFileMessage = "Archivo cargado correctamente";
                     return View();
                 }
@@ -272,5 +281,7 @@ namespace TiendaVirtual.Controllers.Zapatos
                 return View();
             }
         }
+
+        
     }
 }

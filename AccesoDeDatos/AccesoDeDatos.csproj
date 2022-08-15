@@ -54,6 +54,7 @@
     <Compile Include="DbModel\Parametros\CategoriaDbModel.cs" />
     <Compile Include="DbModel\Parametros\MarcaDbModel.cs" />
     <Compile Include="DbModel\Parametros\ProveedorDbModel.cs" />
+    <Compile Include="DbModel\Zapato\FotoZapatoDbModel.cs" />
     <Compile Include="DbModel\Zapato\ZapatoDbModel.cs" />
     <Compile Include="Implementacion\Parametros\ImplCategoriaDatos.cs" />
     <Compile Include="Implementacion\Parametros\ImplMarcaDatos.cs" />
@@ -61,9 +62,9 @@
     <Compile Include="Implementacion\Zapatos\ImplZapatoDatos.cs" />
     <Compile Include="Mapeadores\MapeadorBaseDatos.cs" />
     <Compile Include="Mapeadores\Parametros\MapeadorCategoriaDatos.cs" />
-    <Compile Include="Mapeadores\Parametros\MapeadorFotoDatos.cs" />
     <Compile Include="Mapeadores\Parametros\MapeadorMarcaDatos.cs" />
     <Compile Include="Mapeadores\Parametros\MapeadorProveedorDatos.cs" />
+    <Compile Include="Mapeadores\Zapato\MapeadorFotoZapatoDatos.cs" />
     <Compile Include="Mapeadores\Zapato\MapeadorZapatoDatos.cs" />
     <Compile Include="modelos\tb_Categoria.cs">
       <DependentUpon>TiendaVirtualModel.tt</DependentUpon>

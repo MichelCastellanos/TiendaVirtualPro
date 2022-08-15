@@ -201,6 +201,8 @@
     <Compile Include="Models\ModelosGUI\Parametros\ModeloProveedorGUI.cs" />
     <Compile Include="Models\ModelosGUI\Parametros\ModeloCategoriaGUI.cs" />
     <Compile Include="Models\ModelosGUI\Parametros\ModeloMarcaGUI.cs" />
+    <Compile Include="Models\ModelosGUI\Zapato\ModeloCargarImagenZapatoGUI.cs" />
+    <Compile Include="Models\ModelosGUI\Zapato\ModeloFotoZapatoGUI.cs" />
     <Compile Include="Models\ModelosGUI\Zapato\ModeloZapatoListadoGUI.cs" />
     <Compile Include="Models\ModelosGUI\Zapato\ModeloZapatoGUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

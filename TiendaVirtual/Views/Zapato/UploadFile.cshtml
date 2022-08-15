@@ -1,4 +1,4 @@
-﻿
+﻿@model TiendaVirtual.Models.ModelosGUI.Zapato.ModeloCargarImagenZapatoGUI
 @{
     ViewBag.Title = "UploadFile";
 }
@@ -15,7 +15,7 @@
                 </label>
             </td>
             <td>
-                @Html.TextBox("archivo","", new { type = "file", @class = "custom-file-input" })
+                @Html.TextBoxFor(m =>m.Archivo,"", new { type = "file", @class = "custom-file-input" })
             </td>
             <td>
                 <input type="submit", value="Cargar Archivo" class="btn btn-success" />

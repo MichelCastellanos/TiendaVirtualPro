@@ -162,6 +162,32 @@ namespace AccesoDeDatos.Implementacion.Zapatos
             }
             return new MapeadorProveedorDatos().MapearTipo1Tipo2(lista).ToList();
         }
+
+        public bool GuardarFotoZapato(FotoZapatoDbModel registro)
+        {
+            try
+            {
+                
+                using (EllaYelDBEntities db = new EllaYelDBEntities())
+                {
+                    if (db.tb_Zapato.Where(x => x.Id == registro.Id_Zapato).Count() > 0)
+                    {
+                        MapeadorFotoZapatoDatos mapeador = new MapeadorFotoZapatoDatos();
+                        var reg = mapeador.MapearTipo2Tipo1(registro);
+                        db.tb_Foto.Add(reg);
+                        db.SaveChanges();
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        
     }
 }
 

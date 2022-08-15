@@ -9,5 +9,6 @@ namespace TiendaVirtual.Helpers
     public class DatosGenerales
     {
         public static int RegistrosPorPagina = Int32.Parse(ConfigurationManager.AppSettings["NumeroRegistrosPagina"].ToString());
+        public static string RutaCarpetaFotos = ConfigurationManager.AppSettings["RutaCarpetaFotos"];
     }
 }

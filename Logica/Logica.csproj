@@ -44,6 +44,7 @@
     <Compile Include="DTO\Parametros\CategoriaDTO.cs" />
     <Compile Include="DTO\Parametros\MarcaDTO.cs" />
     <Compile Include="DTO\Parametros\ProveedorDTO.cs" />
+    <Compile Include="DTO\Zapato\FotoZapatoDTO.cs" />
     <Compile Include="DTO\Zapato\ZapatoDTO.cs" />
     <Compile Include="Implementacion\Parametros\ImplCategoriaLogica.cs" />
     <Compile Include="Implementacion\Parametros\ImplProveedorLogica.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Mapeadores\Parametros\MapeadorFotoLogica.cs" />
     <Compile Include="Mapeadores\Parametros\MapeadorMarcaLogica.cs" />
     <Compile Include="Mapeadores\Parametros\MapeadorProveedorLogica.cs" />
+    <Compile Include="Mapeadores\Zapato\MapeadorFotoZapatoLogica.cs" />
     <Compile Include="Mapeadores\Zapato\MapeadorZapatoLogica.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

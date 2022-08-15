@@ -106,6 +106,14 @@ namespace Logica.Implementacion.Zapato
             return mapeador.MapearTipo1Tipo2(lista);
 
         }
+
+        public bool GuardarNombreFotoZapato(FotoZapatoDTO modelo)
+        {
+            MapeadorFotoZapatoLogica mapeador = new MapeadorFotoZapatoLogica();
+            FotoZapatoDbModel fotoDb = mapeador.MapearTipo2Tipo1(modelo);
+            bool respuesta = this.acceso.GuardarFotoZapato(fotoDb);
+            return respuesta;
+        }
     }
 
 }
