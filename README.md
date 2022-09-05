@@ -1,6 +1,6 @@
 # TiendaVirtualPro
 sitio web de ventas de zapatos en linea
-En esta aplicacion web, se esta desarrollando con el modelo MVC, acceso a bases de datos con EF, con un frontend basico, aunque tendra un frontend mas estetico y amigable con el ususario.
+En esta aplicacion web, se esta desarrollando con el modelo MVC, acceso a bases de datos con EF, con un frontend basico, aunque tendra un frontend mas estetico y amigable con el usuario.
 La parte de seguridad aun esta en desarrollo
 # Store Virtual Pro
 Website about sales shoes online
